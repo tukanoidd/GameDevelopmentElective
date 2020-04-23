@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LookoutCollider : MonoBehaviour
+public class PowerUp : MonoBehaviour
 {
     
 }
