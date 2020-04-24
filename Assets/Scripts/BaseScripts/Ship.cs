@@ -7,8 +7,7 @@ using UnityEngine.AI;
 
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(SphereCollider))]
-[RequireComponent(typeof(NavMeshAgent))]
-[RequireComponent(typeof(MeshCollider))]
+[RequireComponent(typeof(BoxCollider))]
 public class Ship : MonoBehaviour
 {
     enum Direction
@@ -29,19 +28,18 @@ public class Ship : MonoBehaviour
     [SerializeField] [Range(70, 100)] private float accuracy = 90;
 
     private HashSet<Ship> _visibleShips = new HashSet<Ship>();
-    private MeshCollider _shipCollider;
-    private NavMeshAgent _navMeshAgent;
+    private BoxCollider _shipCollider;
+    private CharacterController _shipController;
 
-    private bool _rotating;
+    private bool _rotating = false;
+    private bool _moving = false;
 
     private void Awake()
     {
         UpdatePositionRotation();
 
-        _shipCollider = GetComponent<MeshCollider>();
-        _navMeshAgent = GetComponent<NavMeshAgent>();
-
-        _navMeshAgent.speed = speed;
+        _shipCollider = GetComponent<BoxCollider>();
+        _shipController = GetComponent<CharacterController>();
     }
 
     private void OnCollisionEnter(Collision other)
@@ -75,14 +73,41 @@ public class Ship : MonoBehaviour
 
     private IEnumerator Rotate(float angle, Direction direction)
     {
+        if (_moving) yield break;
+
+        _rotating = true;
+        
         int numFrames = (int) (angle / (rotationSpeed * Time.fixedDeltaTime));
         for (int frame = 0; frame < numFrames; frame++)
         {
+            Debug.Log("Rotating");
             transform.Rotate(0f, rotationSpeed * Time.fixedDeltaTime * (direction == Direction.Left ? -1 : 1), 0f);
 
             yield return new WaitForFixedUpdate();
         }
+
+        _rotating = false;
     }
+
+    private IEnumerator MoveForward(float distance)
+    {
+        if (_rotating) yield break;
+
+        _moving = true;
+        
+        float distanceWent = 0f;
+        Vector3 startPos;
+        
+        while (distanceWent <= distance)
+        {
+            startPos = transform.position;
+            _shipController.SimpleMove(transform.forward * speed);
+            distanceWent += Vector3.Distance(startPos, transform.position);
+            yield return null;
+        }
+
+        _moving = false;
+    } 
 
     public void CheckDeadShip(Ship ship)
     {
