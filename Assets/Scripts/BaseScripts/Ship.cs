@@ -26,6 +26,7 @@ public class Ship : MonoBehaviour
     [NonSerialized] public bool dying = false;
 
     [SerializeField] [Range(70, 100)] private float accuracy = 90;
+    [SerializeField] private VisionSphere visionSphere;
 
     private HashSet<Ship> _visibleShips = new HashSet<Ship>();
     private BoxCollider _shipCollider;
@@ -40,6 +41,10 @@ public class Ship : MonoBehaviour
 
         _shipCollider = GetComponent<BoxCollider>();
         _shipController = GetComponent<CharacterController>();
+    }
+
+    private void Start()
+    {
     }
 
     private void OnCollisionEnter(Collision other)
