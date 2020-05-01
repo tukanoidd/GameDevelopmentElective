@@ -128,4 +128,19 @@ public class Ship : MonoBehaviour
     {
         _visibleShips.Remove(ship);
     }
+
+    private void OnTriggerEnter(Collider collision)
+    {
+        if ( collision.tag == "Speeder")
+        {
+            speed = 15;
+            rotationSpeed = 15;
+            accuracy = 50;
+            Debug.Log("picked up");
+            Destroy(collision.gameObject);
+            
+        }
+
+       
+    }
 }
