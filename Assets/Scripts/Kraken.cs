@@ -9,12 +9,13 @@ public class Kraken : MonoBehaviour
     public Vector3 center;
     public Vector3 size = new Vector3(1000, 0, 1000);
     public int TimeKrakenVisible;
+    public GameObject chosenShip;
     private void Update()
     {
     }
     private void OnTriggerEnter(Collider col)
     {
-        if(col.gameObject.tag == "Player")
+        if (col.gameObject.tag == "Player")
         {
             StartCoroutine("SpawnKraken");
             this.gameObject.GetComponent<Collider>().enabled = false;
@@ -31,6 +32,7 @@ public class Kraken : MonoBehaviour
             Instantiate(theKraken, pos, Quaternion.identity);
 
         }
+        SpawnChooseKraken(chosenShip.transform);
         yield return new WaitForSeconds(TimeKrakenVisible);
         GameObject[] objects = GameObject.FindGameObjectsWithTag("Kraken");
         for (int i = 0; i < objects.Length; i++)
@@ -38,5 +40,10 @@ public class Kraken : MonoBehaviour
             Destroy(objects[i]);
         }
         Destroy(this.gameObject);
+    }
+
+    void SpawnChooseKraken(Transform ship)
+    {
+        Instantiate(theKraken, ship.position, Quaternion.identity);
     }
 }
