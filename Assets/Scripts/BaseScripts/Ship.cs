@@ -16,17 +16,25 @@ public class Ship : MonoBehaviour
         Right
     }
 
+    #region ShipData
+    [Header("Ship Data")]
     public Vector3 position = Vector3.zero;
     public Quaternion rotation = Quaternion.identity;
     [Range(1, 100)] public float health = 100;
     [Range(10, 50)] public float speed = 10;
     [Range(10, 25)] public float rotationSpeed = 10;
     [Range(5, 15)] public float reloadSpeed = 5;
-
-    [NonSerialized] public bool dying = false;
-
+    
+    [HideInInspector] public bool dying = false;
+    
     [SerializeField] [Range(70, 100)] private float accuracy = 90;
+    
     [SerializeField] private VisionSphere visionSphere;
+
+    [SerializeField] private Cannon _cannonLeft;
+    [SerializeField] private Cannon _cannonFront;
+    [SerializeField] private Cannon _cannonRight;
+    #endregion
 
     private HashSet<Ship> _visibleShips = new HashSet<Ship>();
     private BoxCollider _shipCollider;

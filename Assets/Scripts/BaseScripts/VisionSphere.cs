@@ -14,7 +14,7 @@ public class VisionSphere : MonoBehaviour
         Back
     }
 
-    [NonSerialized] public VisionPosition position = VisionPosition.Front;
+    [HideInInspector] public VisionPosition position = VisionPosition.Front;
 
     [SerializeField] private Ship parentShip;
     [SerializeField] private Transform parentLookout;

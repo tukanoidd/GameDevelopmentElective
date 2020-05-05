@@ -232,8 +232,12 @@ MonoBehaviour:
   speed: 10
   rotationSpeed: 10
   reloadSpeed: 5
+  dying: 0
   accuracy: 90
   visionSphere: {fileID: 3551795317700772033}
+  _cannonLeft: {fileID: 8198449405806933634}
+  _cannonFront: {fileID: 3510254886576384034}
+  _cannonRight: {fileID: 1865225063360581814}
 --- !u!65 &4529641964278838392
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -387,6 +391,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39b2fb01550acfb4b897c235f2898a8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  position: 2
   parentShip: {fileID: 114935950901250498}
   parentLookout: {fileID: 6319404275184584077}
   rotationSpeed: 10
