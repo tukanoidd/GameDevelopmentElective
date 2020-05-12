@@ -8,7 +8,7 @@ public class Cannon : MonoBehaviour
 {
     public bool reloading = false;
     
-    [SerializeField] private GameObject cannonBallPrefab;
+    [SerializeField] public GameObject cannonBallPrefab;
     [SerializeField] [Range(1, 10)] private float shootPower;
     [SerializeField] private Transform cannonPlaceholder;
 
