@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.AI;
 using Random = UnityEngine.Random;
-
 
 public class CompetitionManager : MonoBehaviour
 {
@@ -15,6 +12,9 @@ public class CompetitionManager : MonoBehaviour
     public bool gameOver = false;
     [Range(10, 30)] public float powerupsInterval = 10;
     [Range(20, 50)] public float powerupSpawnRadius = 20;
+
+    public Vector3 mapCenter = Vector3.zero;
+    public Vector3 mapSize = new Vector3(1000, 0, 1000);
 
     public int ShipsLeft => _ships.Count;
 
@@ -39,6 +39,7 @@ public class CompetitionManager : MonoBehaviour
             if (!gameStarted)
             {
                 gameStarted = true;
+                foreach (Ship ship in _ships) StartCoroutine(ship.RunAI(this));
                 StartCoroutine(SpawnPowerup());
             }
         }

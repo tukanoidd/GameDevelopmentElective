@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(SphereCollider))]
 public class CannonBall : MonoBehaviour
 {
     [Range(5, 15)] public float damage = 5;
+    public bool fire = false;
 
     private void OnCollisionEnter(Collision other)
     {
