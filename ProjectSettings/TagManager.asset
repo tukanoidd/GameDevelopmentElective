@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Shootable
   - Kraken
+  - Boat
+  - Trigger
+  - Speeder
   layers:
   - Default
   - TransparentFX
