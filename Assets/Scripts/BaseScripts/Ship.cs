@@ -229,7 +229,6 @@ public class Ship : MonoBehaviour
     private IEnumerator UseSpeederPowerUp()
     {
         if (_powerup != PowerUpMode.Speeder) yield break;
-
         _powerup = PowerUpMode.None;
 
         float oldSpeed = speed;
@@ -254,9 +253,8 @@ public class Ship : MonoBehaviour
     /// <returns></returns>
     private IEnumerator UseKrakenPowerUp(Ship chosenShip = null)
     {
-        Debug.Log(Kraken.krakenPrefab);
-
         if (_powerup != PowerUpMode.Kraken) yield break;
+        _powerup = PowerUpMode.None;
 
         List<GameObject> tentacles = new List<GameObject>();
 
@@ -291,6 +289,7 @@ public class Ship : MonoBehaviour
     private IEnumerator UseFireBoatPowerUp()
     {
         if (_powerup != PowerUpMode.FireBoat) yield break;
+        _powerup = PowerUpMode.None;
 
         GameObject oldPrefab = _cannonFront.cannonBallPrefab;
 
