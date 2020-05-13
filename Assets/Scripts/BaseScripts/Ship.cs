@@ -303,7 +303,17 @@ public class Ship : MonoBehaviour
         _cannonLeft.cannonBallPrefab = oldPrefab;
         _cannonRight.cannonBallPrefab = oldPrefab;
     }
+    /// <summary>
+    /// Adds the given amount of health
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator useHealthPowerUp()
+    {
+        if (_powerup != PowerUpMode.Health) yield break;
+        _powerup = PowerUpMode.None;
 
+        health += Health.addHealth;
+    }
     /// <summary>
     /// Apply continuous damage from burning
     /// </summary>
