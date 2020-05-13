@@ -309,10 +309,14 @@ public class Ship : MonoBehaviour
     /// <returns></returns>
     private IEnumerator useHealthPowerUp()
     {
-        if (_powerup != PowerUpMode.Health) yield break;
+        if (_powerup != PowerUpMode.Healing) yield break;
         _powerup = PowerUpMode.None;
 
         health += Health.addHealth;
+        if(health > 100)
+        {
+            health = 100;
+        }
     }
     /// <summary>
     /// Apply continuous damage from burning

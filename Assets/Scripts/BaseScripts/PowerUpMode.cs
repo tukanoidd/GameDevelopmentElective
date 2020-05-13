@@ -5,7 +5,7 @@
         Speeder,
         Kraken,
         FireBoat,
-        Health,
+        Healing,
         None
     }
 }
