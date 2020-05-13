@@ -1,6 +1,6 @@
 ﻿namespace BaseScripts
 {
-    public enum PowerUpMode
+    public enum PowerUpType
     {
         Speeder,
         Kraken,

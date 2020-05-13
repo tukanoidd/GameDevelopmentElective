@@ -50,7 +50,7 @@ public class Ship : MonoBehaviour
     private BoxCollider _shipCollider;
     private CharacterController _shipController;
 
-    private PowerUpMode _powerup = PowerUpMode.None;
+    private PowerUpType _powerup = PowerUpType.None;
 
     private bool _rotating = false;
     private bool _moving = false;
@@ -219,7 +219,7 @@ public class Ship : MonoBehaviour
     /// <param name="powerup">Object to check if this methos was called from the powerup object itself</param>
     public void SetPowerUp(object powerup)
     {
-        if (powerup is PowerUp) _powerup = ((PowerUp) powerup).powerUpMode;
+        if (powerup is PowerUp) _powerup = ((PowerUp) powerup).powerUpType;
     }
 
     /// <summary>
@@ -228,8 +228,8 @@ public class Ship : MonoBehaviour
     /// <returns></returns>
     private IEnumerator UseSpeederPowerUp()
     {
-        if (_powerup != PowerUpMode.Speeder) yield break;
-        _powerup = PowerUpMode.None;
+        if (_powerup != PowerUpType.Speeder) yield break;
+        _powerup = PowerUpType.None;
 
         float oldSpeed = speed;
         float oldRotationSpeed = rotationSpeed;
@@ -253,12 +253,12 @@ public class Ship : MonoBehaviour
     /// <returns></returns>
     private IEnumerator UseKrakenPowerUp(Ship chosenShip = null)
     {
-        if (_powerup != PowerUpMode.Kraken) yield break;
-        _powerup = PowerUpMode.None;
+        if (_powerup != PowerUpType.Kraken) yield break;
+        _powerup = PowerUpType.None;
 
         List<GameObject> tentacles = new List<GameObject>();
 
-        _powerup = PowerUpMode.None;
+        _powerup = PowerUpType.None;
 
         Vector3 center = CompetitionManager.current.mapCenter;
         Vector3 size = CompetitionManager.current.mapSize;
@@ -288,8 +288,8 @@ public class Ship : MonoBehaviour
     /// <returns></returns>
     private IEnumerator UseFireBoatPowerUp()
     {
-        if (_powerup != PowerUpMode.FireBoat) yield break;
-        _powerup = PowerUpMode.None;
+        if (_powerup != PowerUpType.FireBoat) yield break;
+        _powerup = PowerUpType.None;
 
         GameObject oldPrefab = _cannonFront.cannonBallPrefab;
 
@@ -303,21 +303,19 @@ public class Ship : MonoBehaviour
         _cannonLeft.cannonBallPrefab = oldPrefab;
         _cannonRight.cannonBallPrefab = oldPrefab;
     }
+    
     /// <summary>
     /// Adds the given amount of health
     /// </summary>
     /// <returns></returns>
-    private IEnumerator useHealthPowerUp()
+    private IEnumerator UseHealingPowerUp()
     {
-        if (_powerup != PowerUpMode.Healing) yield break;
-        _powerup = PowerUpMode.None;
+        if (_powerup != PowerUpType.Healing) yield break;
+        _powerup = PowerUpType.None;
 
-        health += Health.addHealth;
-        if(health > 100)
-        {
-            health = 100;
-        }
+        health = Mathf.Clamp(health + Healing.amountToAdd, 0, 100);
     }
+    
     /// <summary>
     /// Apply continuous damage from burning
     /// </summary>

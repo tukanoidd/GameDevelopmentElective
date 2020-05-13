@@ -7,7 +7,7 @@ using UnityEngine;
 [RequireComponent(typeof(MeshFilter))]
 public class PowerUp : MonoBehaviour
 {
-    public PowerUpMode powerUpMode = PowerUpMode.None;
+    public PowerUpType powerUpType = PowerUpType.None;
     [Range(10, 50)] public float rotationSpeed = 25; 
 
     private void FixedUpdate()
