@@ -12,7 +12,7 @@ using Random = UnityEngine.Random;
 [RequireComponent(typeof(BoxCollider))]
 public class Ship : MonoBehaviour
 {
-    enum Direction
+    protected enum Direction
     {
         Left,
         Right
@@ -42,7 +42,9 @@ public class Ship : MonoBehaviour
     [SerializeField] private Cannon _cannonFront;
     [SerializeField] private Cannon _cannonRight;
 
-    [HideInInspector] public bool dying = false;
+    [Space(20)] [HideInInspector] public bool dying = false;
+
+    public bool HasPowerup => _powerup != PowerUpType.None;
 
     #endregion
 
@@ -50,6 +52,7 @@ public class Ship : MonoBehaviour
     private BoxCollider _shipCollider;
     private CharacterController _shipController;
 
+    private HashSet<PowerUp> _visiblePowerUps = new HashSet<PowerUp>();
     private PowerUpType _powerup = PowerUpType.None;
 
     private bool _rotating = false;
@@ -143,7 +146,7 @@ public class Ship : MonoBehaviour
     /// <param name="angle">Angle how much to rotate</param>
     /// <param name="direction">Direction in which to rotate the ship</param>
     /// <returns></returns>
-    private IEnumerator Rotate(float angle, Direction direction)
+    protected IEnumerator Rotate(float angle, Direction direction)
     {
         if (_moving) yield break;
 
@@ -166,7 +169,7 @@ public class Ship : MonoBehaviour
     /// </summary>
     /// <param name="distance"></param>
     /// <returns></returns>
-    private IEnumerator MoveForward(float distance)
+    protected IEnumerator MoveForward(float distance)
     {
         if (_rotating) yield break;
 
@@ -199,19 +202,32 @@ public class Ship : MonoBehaviour
     /// Add ship to visible ships list
     /// </summary>
     /// <param name="ship">Ship to add</param>
-    public void AddVisibleShip(Ship ship)
-    {
-        _visibleShips.Add(ship);
-    }
+    public void AddVisibleShip(Ship ship) => _visibleShips.Add(ship);
 
     /// <summary>
     /// Remove ship from visible ships list
     /// </summary>
     /// <param name="ship">Ship to remove</param>
-    public void RemoveVisibleShip(Ship ship)
-    {
-        _visibleShips.Remove(ship);
-    }
+    public void RemoveVisibleShip(Ship ship) => _visibleShips.Remove(ship);
+
+    /// <summary>
+    /// Add PowerUp to visible powerUps list
+    /// </summary>
+    /// <param name="powerUp">PowerUp to add</param>
+    public void AddVisiblePowerUp(PowerUp powerUp) => _visiblePowerUps.Add(powerUp);
+
+    /// <summary>
+    /// Remove PowerUp from visible powerUps list
+    /// </summary>
+    /// <param name="powerUp">PowerUp to Remove</param>
+    public void RemoveVisiblePowerUp(PowerUp powerUp) => _visiblePowerUps.Remove(powerUp);
+
+    /// <summary>
+    /// Update visible powerUps list based on existing powerUps on the map
+    /// </summary>
+    /// <param name="existingPowerUps">Existing powerUps</param>
+    public void UpdateVisiblePowerUps(HashSet<PowerUp> existingPowerUps) => _visiblePowerUps =
+        new HashSet<PowerUp>(_visiblePowerUps.Where(powerUp => existingPowerUps.Contains(powerUp)));
 
     /// <summary>
     /// Set picked powerup
@@ -226,7 +242,7 @@ public class Ship : MonoBehaviour
     /// Use Speeder powerup
     /// </summary>
     /// <returns></returns>
-    private IEnumerator UseSpeederPowerUp()
+    protected IEnumerator UseSpeederPowerUp()
     {
         if (_powerup != PowerUpType.Speeder) yield break;
         _powerup = PowerUpType.None;
@@ -251,7 +267,7 @@ public class Ship : MonoBehaviour
     /// </summary>
     /// <param name="chosenShip">ship to attack with kraken tentacle</param>
     /// <returns></returns>
-    private IEnumerator UseKrakenPowerUp(Ship chosenShip = null)
+    protected IEnumerator UseKrakenPowerUp(Ship chosenShip = null)
     {
         if (_powerup != PowerUpType.Kraken) yield break;
         _powerup = PowerUpType.None;
@@ -286,7 +302,7 @@ public class Ship : MonoBehaviour
     /// Use Fireboat powerup
     /// </summary>
     /// <returns></returns>
-    private IEnumerator UseFireBoatPowerUp()
+    protected IEnumerator UseFireBoatPowerUp()
     {
         if (_powerup != PowerUpType.FireBoat) yield break;
         _powerup = PowerUpType.None;
@@ -303,19 +319,19 @@ public class Ship : MonoBehaviour
         _cannonLeft.cannonBallPrefab = oldPrefab;
         _cannonRight.cannonBallPrefab = oldPrefab;
     }
-    
+
     /// <summary>
     /// Adds the given amount of health
     /// </summary>
     /// <returns></returns>
-    private IEnumerator UseHealingPowerUp()
+    protected IEnumerator UseHealingPowerUp()
     {
         if (_powerup != PowerUpType.Healing) yield break;
         _powerup = PowerUpType.None;
 
         health = Mathf.Clamp(health + Healing.amountToAdd, 0, 100);
     }
-    
+
     /// <summary>
     /// Apply continuous damage from burning
     /// </summary>

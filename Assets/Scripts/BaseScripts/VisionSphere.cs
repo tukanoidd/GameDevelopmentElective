@@ -72,11 +72,17 @@ public class VisionSphere : MonoBehaviour
     {
         Ship checkShip = other.gameObject.GetComponent<Ship>();
         if (checkShip && !checkShip.dying) parentShip.AddVisibleShip(checkShip);
+
+        PowerUp checkPowerUp = other.gameObject.GetComponent<PowerUp>();
+        if (checkPowerUp) parentShip.AddVisiblePowerUp(checkPowerUp);
     }
 
     private void OnTriggerExit(Collider other)
     {
         Ship checkShip = other.gameObject.GetComponent<Ship>();
         if (checkShip) parentShip.RemoveVisibleShip(checkShip);
+        
+        PowerUp checkPowerUp = other.gameObject.GetComponent<PowerUp>();
+        if (checkPowerUp) parentShip.RemoveVisiblePowerUp(checkPowerUp);
     }
 }

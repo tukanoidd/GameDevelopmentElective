@@ -7,29 +7,38 @@ using Random = UnityEngine.Random;
 public class CompetitionManager : MonoBehaviour
 {
     public static CompetitionManager current;
-    
+
     public bool gameStarted = false;
     public bool gameOver = false;
-    [Range(10, 30)] public float powerupsInterval = 10;
-    [Range(20, 50)] public float powerupSpawnRadius = 20;
 
     public Vector3 mapCenter = Vector3.zero;
     public Vector3 mapSize = new Vector3(1000, 0, 1000);
 
     public int ShipsLeft => _ships.Count;
 
-    [SerializeField] private Transform[] spawnPoints;
+    [Header("Ships Spawning")] [SerializeField]
+    private Transform[] spawnPoints;
+
     [SerializeField] private GameObject[] shipPrefabs;
-    [SerializeField] private GameObject[] powerupPrefabs;
+
+    [Header("PowerUps Spawning")] [SerializeField]
+    private GameObject[] powerupPrefabs;
+
     [SerializeField] private Transform powerupSpawnCenter;
+    [SerializeField] [Range(1, 15)] private int maxPowerUpsNum = 5;
+    [SerializeField] [Range(1, 30)] private float powerupsInterval = 10;
+    [SerializeField] [Range(1, 150)] private float powerupSpawnRadius = 20;
+
+    private HashSet<PowerUp> _powerupsSpawned = new HashSet<PowerUp>();
 
     private List<Ship> _ships = new List<Ship>();
-    
+
     private void Awake()
     {
         current = this;
-        
+
         SpawnShips();
+        StartCoroutine(SpawnPowerup());
     }
 
     private void Update()
@@ -61,22 +70,30 @@ public class CompetitionManager : MonoBehaviour
     {
         if (powerupPrefabs.Length > 0 && powerupSpawnCenter)
         {
-            int randInd = Random.Range(0, powerupPrefabs.Length);
-            
-            Vector3 spawnPosition = powerupSpawnCenter.position;
-            spawnPosition.x += Random.Range(0, powerupSpawnRadius);
-            spawnPosition.z += Random.Range(0, powerupSpawnRadius);
-            
-            Instantiate(powerupPrefabs[randInd], spawnPosition, Quaternion.identity);
+            _powerupsSpawned = new HashSet<PowerUp>(_powerupsSpawned.Where(powerUp => powerUp != null));
+
+            if (_powerupsSpawned.Count < maxPowerUpsNum)
+            {
+                foreach (Ship ship in _ships) ship.UpdateVisiblePowerUps(_powerupsSpawned);
+                
+                int randInd = new System.Random().Next(0, powerupPrefabs.Length);
+
+                Vector2 spawnPos = Random.insideUnitCircle * powerupSpawnRadius;
+
+                GameObject newPowerUp = Instantiate(
+                    powerupPrefabs[randInd],
+                    new Vector3(
+                        spawnPos.x,
+                        powerupSpawnCenter.transform.position.y,
+                        spawnPos.y
+                    ),
+                    Quaternion.identity
+                );
+                _powerupsSpawned.Add(newPowerUp.GetComponent<PowerUp>());
+            }
         }
 
-        float normalizedTime = 0f;
-        while (normalizedTime <= 1f)
-        {
-            normalizedTime += Time.deltaTime / powerupsInterval;
-            yield return null;
-        }
-
+        yield return new WaitForSeconds(powerupsInterval);
         StartCoroutine(SpawnPowerup());
     }
 

@@ -18,8 +18,11 @@ public class PowerUp : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         Ship checkShip = other.GetComponent<Ship>();
-        if (checkShip != null) checkShip.SetPowerUp(this);
+        if (checkShip != null && !checkShip.HasPowerup)
+        {
+            checkShip.SetPowerUp(this);
         
-        Destroy(this);
+            Destroy(this);   
+        }
     }
 }
