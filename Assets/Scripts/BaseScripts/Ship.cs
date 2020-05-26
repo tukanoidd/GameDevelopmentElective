@@ -36,7 +36,7 @@ public class Ship : MonoBehaviour
     [SerializeField] [Range(70, 100)] private float accuracy = 90;
 
     [Header("Ship Parts References")] [SerializeField]
-    private VisionSphere visionSphere;
+    protected VisionSphere visionSphere;
 
     [SerializeField] private Cannon _cannonLeft;
     [SerializeField] private Cannon _cannonFront;
@@ -44,21 +44,22 @@ public class Ship : MonoBehaviour
 
     [Space(20)] [HideInInspector] public bool dying = false;
 
-    public bool HasPowerup => _powerup != PowerUpType.None;
+    public bool HasPowerup => powerup != PowerUpType.None;
 
     #endregion
 
-    private HashSet<Ship> _visibleShips = new HashSet<Ship>();
     private BoxCollider _shipCollider;
     private CharacterController _shipController;
 
-    private HashSet<PowerUp> _visiblePowerUps = new HashSet<PowerUp>();
-    private PowerUpType _powerup = PowerUpType.None;
+    protected HashSet<Ship> visibleShips = new HashSet<Ship>();
 
-    private bool _rotating = false;
-    private bool _moving = false;
+    protected HashSet<PowerUp> visiblePowerUps = new HashSet<PowerUp>();
+    protected PowerUpType powerup = PowerUpType.None;
 
-    private bool _onFire = false;
+    protected bool rotating = false;
+    protected bool moving = false;
+
+    protected bool onFire = false;
 
     private void Awake()
     {
@@ -148,9 +149,9 @@ public class Ship : MonoBehaviour
     /// <returns></returns>
     protected IEnumerator Rotate(float angle, Direction direction)
     {
-        if (_moving || _rotating) yield break;
+        if (moving || rotating) yield break;
 
-        _rotating = true;
+        rotating = true;
 
         int numFrames = (int) (angle / (rotationSpeed * Time.fixedDeltaTime));
         for (int frame = 0; frame < numFrames; frame++)
@@ -161,7 +162,7 @@ public class Ship : MonoBehaviour
             yield return new WaitForFixedUpdate();
         }
 
-        _rotating = false;
+        rotating = false;
     }
 
     /// <summary>
@@ -171,9 +172,9 @@ public class Ship : MonoBehaviour
     /// <returns></returns>
     protected IEnumerator MoveForward(float distance)
     {
-        if (_rotating || _moving) yield break;
+        if (rotating || moving) yield break;
 
-        _moving = true;
+        moving = true;
 
         float distanceWent = 0f;
         Vector3 startPos;
@@ -186,7 +187,7 @@ public class Ship : MonoBehaviour
             yield return null;
         }
 
-        _moving = false;
+        moving = false;
     }
 
     /// <summary>
@@ -195,39 +196,39 @@ public class Ship : MonoBehaviour
     /// <param name="ship">Ship to check</param>
     public void CheckDeadShip(Ship ship)
     {
-        if (_visibleShips.Contains(ship)) RemoveVisibleShip(ship);
+        if (visibleShips.Contains(ship)) RemoveVisibleShip(ship);
     }
 
     /// <summary>
     /// Add ship to visible ships list
     /// </summary>
     /// <param name="ship">Ship to add</param>
-    public void AddVisibleShip(Ship ship) => _visibleShips.Add(ship);
+    public void AddVisibleShip(Ship ship) => visibleShips.Add(ship);
 
     /// <summary>
     /// Remove ship from visible ships list
     /// </summary>
     /// <param name="ship">Ship to remove</param>
-    public void RemoveVisibleShip(Ship ship) => _visibleShips.Remove(ship);
+    public void RemoveVisibleShip(Ship ship) => visibleShips.Remove(ship);
 
     /// <summary>
     /// Add PowerUp to visible powerUps list
     /// </summary>
     /// <param name="powerUp">PowerUp to add</param>
-    public void AddVisiblePowerUp(PowerUp powerUp) => _visiblePowerUps.Add(powerUp);
+    public void AddVisiblePowerUp(PowerUp powerUp) => visiblePowerUps.Add(powerUp);
 
     /// <summary>
     /// Remove PowerUp from visible powerUps list
     /// </summary>
     /// <param name="powerUp">PowerUp to Remove</param>
-    public void RemoveVisiblePowerUp(PowerUp powerUp) => _visiblePowerUps.Remove(powerUp);
+    public void RemoveVisiblePowerUp(PowerUp powerUp) => visiblePowerUps.Remove(powerUp);
 
     /// <summary>
     /// Update visible powerUps list based on existing powerUps on the map
     /// </summary>
     /// <param name="existingPowerUps">Existing powerUps</param>
-    public void UpdateVisiblePowerUps(HashSet<PowerUp> existingPowerUps) => _visiblePowerUps =
-        new HashSet<PowerUp>(_visiblePowerUps.Where(powerUp => existingPowerUps.Contains(powerUp)));
+    public void UpdateVisiblePowerUps(HashSet<PowerUp> existingPowerUps) => visiblePowerUps =
+        new HashSet<PowerUp>(visiblePowerUps.Where(powerUp => existingPowerUps.Contains(powerUp)));
 
     /// <summary>
     /// Set picked powerup
@@ -235,7 +236,7 @@ public class Ship : MonoBehaviour
     /// <param name="powerup">Object to check if this methos was called from the powerup object itself</param>
     public void SetPowerUp(object powerup)
     {
-        if (powerup is PowerUp) _powerup = ((PowerUp) powerup).powerUpType;
+        if (powerup is PowerUp) this.powerup = ((PowerUp) powerup).powerUpType;
     }
 
     /// <summary>
@@ -244,8 +245,8 @@ public class Ship : MonoBehaviour
     /// <returns></returns>
     protected IEnumerator UseSpeederPowerUp()
     {
-        if (_powerup != PowerUpType.Speeder) yield break;
-        _powerup = PowerUpType.None;
+        if (powerup != PowerUpType.Speeder) yield break;
+        powerup = PowerUpType.None;
 
         float oldSpeed = speed;
         float oldRotationSpeed = rotationSpeed;
@@ -269,12 +270,12 @@ public class Ship : MonoBehaviour
     /// <returns></returns>
     protected IEnumerator UseKrakenPowerUp(Ship chosenShip = null)
     {
-        if (_powerup != PowerUpType.Kraken) yield break;
-        _powerup = PowerUpType.None;
+        if (powerup != PowerUpType.Kraken) yield break;
+        powerup = PowerUpType.None;
 
         List<GameObject> tentacles = new List<GameObject>();
 
-        _powerup = PowerUpType.None;
+        powerup = PowerUpType.None;
 
         Vector3 center = CompetitionManager.current.mapCenter;
         Vector3 size = CompetitionManager.current.mapSize;
@@ -304,8 +305,8 @@ public class Ship : MonoBehaviour
     /// <returns></returns>
     protected IEnumerator UseFireBoatPowerUp()
     {
-        if (_powerup != PowerUpType.FireBoat) yield break;
-        _powerup = PowerUpType.None;
+        if (powerup != PowerUpType.FireBoat) yield break;
+        powerup = PowerUpType.None;
 
         GameObject oldPrefab = _cannonFront.cannonBallPrefab;
 
@@ -326,8 +327,8 @@ public class Ship : MonoBehaviour
     /// <returns></returns>
     protected IEnumerator UseHealingPowerUp()
     {
-        if (_powerup != PowerUpType.Healing) yield break;
-        _powerup = PowerUpType.None;
+        if (powerup != PowerUpType.Healing) yield break;
+        powerup = PowerUpType.None;
 
         health = Mathf.Clamp(health + Healing.amountToAdd, 0, 100);
     }
@@ -338,7 +339,7 @@ public class Ship : MonoBehaviour
     /// <returns></returns>
     private IEnumerator Burn()
     {
-        if (_onFire) yield break;
+        if (onFire) yield break;
 
         int timeBurnt = 0;
         while (timeBurnt < FireBoat.burnTime)
