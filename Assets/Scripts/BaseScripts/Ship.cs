@@ -148,7 +148,7 @@ public class Ship : MonoBehaviour
     /// <returns></returns>
     protected IEnumerator Rotate(float angle, Direction direction)
     {
-        if (_moving) yield break;
+        if (_moving || _rotating) yield break;
 
         _rotating = true;
 
@@ -171,7 +171,7 @@ public class Ship : MonoBehaviour
     /// <returns></returns>
     protected IEnumerator MoveForward(float distance)
     {
-        if (_rotating) yield break;
+        if (_rotating || _moving) yield break;
 
         _moving = true;
 

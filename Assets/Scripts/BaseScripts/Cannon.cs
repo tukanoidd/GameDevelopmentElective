@@ -32,6 +32,8 @@ public class Cannon : MonoBehaviour
 
     private IEnumerator Reload(float reloadSpeed)
     {
+        if (reloading) yield break;
+        
         reloading = true;
         
         float normalizedTime = 0;
