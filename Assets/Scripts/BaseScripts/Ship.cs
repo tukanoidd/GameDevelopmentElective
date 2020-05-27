@@ -349,4 +349,11 @@ public class Ship : MonoBehaviour
             ApplyDamage(FireBoat.fireDamage);
         }
     }
+
+    protected void Shoot(VisionSphere.VisionPosition position)
+    {
+        if (position == VisionSphere.VisionPosition.Front) _cannonFront.Shoot(accuracy, reloadSpeed);
+        else if (position == VisionSphere.VisionPosition.Left) _cannonLeft.Shoot(accuracy, reloadSpeed);
+        else if (position == VisionSphere.VisionPosition.Right) _cannonRight.Shoot(accuracy, reloadSpeed);
+    }
 }
