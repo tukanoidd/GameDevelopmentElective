@@ -357,7 +357,7 @@ public class Ship : MonoBehaviour
         else if (position == VisionSphere.VisionPosition.Right) _cannonRight.Shoot(accuracy, reloadSpeed);
     }
 
-    protected bool CanonIsReloading(VisionSphere.VisionPosition position)
+    protected bool CannonIsReloading(VisionSphere.VisionPosition position)
     {
         if (position == VisionSphere.VisionPosition.Front) return _cannonFront.reloading;
         if (position == VisionSphere.VisionPosition.Left) return _cannonLeft.reloading;
