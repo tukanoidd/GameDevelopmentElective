@@ -1,18 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using BaseScripts;
 using UnityEngine;
 
 public class GradusAI : Ship
 {
-    // Start is called before the first frame update
-    void Start()
+    public override IEnumerator RunAI(object caller)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if (!(caller is CompetitionManager)) yield break;
+        while (!dying || !CompetitionManager.current.gameOver || !CompetitionManager.current.gameStarted)
+        {
+            yield return MoveForward(200);
+            yield return null;
+            Shoot(VisionSphere.VisionPosition.Front);
+        }
     }
 }
