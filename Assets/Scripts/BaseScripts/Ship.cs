@@ -41,6 +41,8 @@ public class Ship : MonoBehaviour
     [SerializeField] private Cannon _cannonLeft;
     [SerializeField] private Cannon _cannonFront;
     [SerializeField] private Cannon _cannonRight;
+    public AudioClip boatMoving;
+    public AudioSource audioSRC;
 
     [Space(20)] [HideInInspector] public bool dying = false;
 
@@ -67,6 +69,8 @@ public class Ship : MonoBehaviour
 
         _shipCollider = GetComponent<BoxCollider>();
         _shipController = GetComponent<CharacterController>();
+        audioSRC = GetComponent<AudioSource>();
+        audioSRC.clip = boatMoving;
     }
 
     private void FixedUpdate()
@@ -149,16 +153,16 @@ public class Ship : MonoBehaviour
     /// <returns></returns>
     protected IEnumerator Rotate(float angle, Direction direction)
     {
+       
         if (moving || rotating) yield break;
+        
 
         rotating = true;
 
         int numFrames = (int) (angle / (rotationSpeed * Time.fixedDeltaTime));
         for (int frame = 0; frame < numFrames; frame++)
         {
-            Debug.Log("Rotating");
             transform.Rotate(0f, rotationSpeed * Time.fixedDeltaTime * (direction == Direction.Left ? -1 : 1), 0f);
-
             yield return new WaitForFixedUpdate();
         }
 
@@ -178,15 +182,15 @@ public class Ship : MonoBehaviour
 
         float distanceWent = 0f;
         Vector3 startPos;
-
+        
         while (distanceWent <= distance)
         {
+            audioSRC.PlayOneShot(boatMoving, 0.9f);
             startPos = transform.position;
             _shipController.SimpleMove(transform.forward * speed);
             distanceWent += Vector3.Distance(startPos, transform.position);
             yield return null;
         }
-
         moving = false;
     }
 
