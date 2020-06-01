@@ -41,8 +41,10 @@ public class Ship : MonoBehaviour
     [SerializeField] private Cannon _cannonLeft;
     [SerializeField] private Cannon _cannonFront;
     [SerializeField] private Cannon _cannonRight;
-    public AudioClip boatMoving;
-    public AudioSource audioSRC;
+    
+    [Header("Audio")]
+    [SerializeField] private AudioSource audioSRC;
+    [SerializeField] private AudioClip boatMoving;
 
     [Space(20)] [HideInInspector] public bool dying = false;
 
@@ -98,10 +100,10 @@ public class Ship : MonoBehaviour
     /// Checking for cannonball collision 
     /// </summary>
     /// <param name="other">Object collided with</param>
-    private void OnCollisionEnter(Collision other)
+    private void OnTriggerEnter(Collider other)
     {
         CannonBall checkCannonBall = other.gameObject.GetComponent<CannonBall>();
-        if (checkCannonBall)
+        if (checkCannonBall && !checkCannonBall.parentShip.Equals(this))
         {
             //todo hit animation???
             ApplyDamage(checkCannonBall.damage); //apply cannonball damage
@@ -152,10 +154,8 @@ public class Ship : MonoBehaviour
     /// <param name="direction">Direction in which to rotate the ship</param>
     /// <returns></returns>
     protected IEnumerator Rotate(float angle, Direction direction)
-    {
-       
+    {       
         if (moving || rotating) yield break;
-        
 
         rotating = true;
 
@@ -185,7 +185,8 @@ public class Ship : MonoBehaviour
         
         while (distanceWent <= distance)
         {
-            //audioSRC.PlayOneShot(boatMoving, 0.9f);
+            audioSRC.PlayOneShot(boatMoving, 0.9f);
+            
             startPos = transform.position;
             _shipController.SimpleMove(transform.forward * speed);
             distanceWent += Vector3.Distance(startPos, transform.position);

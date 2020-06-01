@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571343, b: 0.30692208, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -259,7 +259,7 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &1222948032
@@ -530,6 +530,12 @@ PrefabInstance:
       propertyPath: gameOver
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8487527656895139046, guid: 511990faeaadf4428964da901f8ee2fb,
+        type: 3}
+      propertyPath: shipPrefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: 7222537879436563100, guid: ea6d76ff5e877f097a36b37dba93e8f7,
+        type: 3}
     - target: {fileID: 8487527656895139047, guid: 511990faeaadf4428964da901f8ee2fb,
         type: 3}
       propertyPath: m_LocalPosition.x
