@@ -48,7 +48,7 @@ MonoBehaviour:
     type: 3}
   shootPower: 300000
   cannonPlaceholder: {fileID: 8763418087678864520}
-  parentShip: {fileID: 114935950901250498}
+  parentShip: {fileID: 2089113015057735549}
 --- !u!1 &741358350079457689
 GameObject:
   m_ObjectHideFlags: 0
@@ -74,7 +74,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 741358350079457689}
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -20, y: 17, z: -0}
+  m_LocalPosition: {x: -20, y: 17, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6732724274104520258}
@@ -97,7 +97,7 @@ MonoBehaviour:
     type: 3}
   shootPower: 300000
   cannonPlaceholder: {fileID: 5166063748645904553}
-  parentShip: {fileID: 114935950901250498}
+  parentShip: {fileID: 2089113015057735549}
 --- !u!1 &1055067001638441259
 GameObject:
   m_ObjectHideFlags: 0
@@ -177,7 +177,7 @@ MonoBehaviour:
     type: 3}
   shootPower: 300000
   cannonPlaceholder: {fileID: 3804582276135733834}
-  parentShip: {fileID: 114935950901250498}
+  parentShip: {fileID: 2089113015057735549}
 --- !u!1 &7222537879436563100
 GameObject:
   m_ObjectHideFlags: 0
@@ -191,9 +191,9 @@ GameObject:
   - component: {fileID: 1977667819812103144}
   - component: {fileID: 8316681641736198414}
   - component: {fileID: 3940018347082917843}
-  - component: {fileID: 114935950901250498}
+  - component: {fileID: 2089113015057735549}
   m_Layer: 0
-  m_Name: PirateShip
+  m_Name: EricShip
   m_TagString: Boat
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -358,7 +358,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &114935950901250498
+--- !u!114 &2089113015057735549
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -367,7 +367,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7222537879436563100}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a267f27526dcfff4283a7446a4c9e9d4, type: 3}
+  m_Script: {fileID: 11500000, guid: dbcd1392ab5cef449a2d3815fdd4b8ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   health: 100
@@ -384,6 +384,8 @@ MonoBehaviour:
   audioSRC: {fileID: 3940018347082917843}
   boatMoving: {fileID: 8300000, guid: 76cdffcfae13f194cb3eaac04598375c, type: 3}
   dying: 0
+  wandering: 1
+  atBack: 0
 --- !u!1 &8457703061111911330
 GameObject:
   m_ObjectHideFlags: 0
@@ -491,7 +493,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   position: 2
-  parentShip: {fileID: 114935950901250498}
+  parentShip: {fileID: 2089113015057735549}
   parentLookout: {fileID: 6319404275184584077}
   rotationSpeed: 10
 --- !u!1001 &1607915427564658697
