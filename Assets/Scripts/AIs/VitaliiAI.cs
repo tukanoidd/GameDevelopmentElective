@@ -105,7 +105,7 @@ public class VitaliiAI : Ship
 
     private IEnumerator VitaliiAIMove(float distance)
     {
-        if (Math.Abs(position.x) > 2000 || Math.Abs(position.z) > 2000)
+        if (Math.Abs(position.x) > 350 || Math.Abs(position.z) > 350)
         {
             Vector2 dir = new Vector2(-position.x, -position.z);
             yield return RotateToward(dir);

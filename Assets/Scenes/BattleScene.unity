@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571343, b: 0.30692208, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -460,6 +460,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8487527656895139046, guid: 511990faeaadf4428964da901f8ee2fb,
         type: 3}
+      propertyPath: shipPrefabs.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8487527656895139046, guid: 511990faeaadf4428964da901f8ee2fb,
+        type: 3}
       propertyPath: powerupSpawnCenter
       value: 
       objectReference: {fileID: 410659944}
@@ -473,6 +478,12 @@ PrefabInstance:
       propertyPath: powerupSpawnRadius
       value: 150
       objectReference: {fileID: 0}
+    - target: {fileID: 8487527656895139046, guid: 511990faeaadf4428964da901f8ee2fb,
+        type: 3}
+      propertyPath: shipPrefabs.Array.data[1]
+      value: 
+      objectReference: {fileID: 7222537879436563100, guid: 34a8cf5fdde0b2fa992524aea4556869,
+        type: 3}
     - target: {fileID: 8487527656895139047, guid: 511990faeaadf4428964da901f8ee2fb,
         type: 3}
       propertyPath: m_LocalPosition.x
