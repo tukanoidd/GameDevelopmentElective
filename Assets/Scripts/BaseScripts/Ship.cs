@@ -185,7 +185,7 @@ public class Ship : MonoBehaviour
         
         while (distanceWent <= distance)
         {
-            audioSRC.PlayOneShot(boatMoving, 0.9f);
+            //audioSRC.PlayOneShot(boatMoving, 0.9f);
             startPos = transform.position;
             _shipController.SimpleMove(transform.forward * speed);
             distanceWent += Vector3.Distance(startPos, transform.position);

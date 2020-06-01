@@ -189,9 +189,9 @@ GameObject:
   - component: {fileID: 8082125333420773932}
   - component: {fileID: 1977667819812103144}
   - component: {fileID: 8316681641736198414}
-  - component: {fileID: 2690424989475387058}
   - component: {fileID: 8737467891974235115}
   - component: {fileID: 3940018347082917843}
+  - component: {fileID: 2089113015057735549}
   m_Layer: 0
   m_Name: PirateShip
   m_TagString: Boat
@@ -304,34 +304,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2690424989475387058
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7222537879436563100}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dbcd1392ab5cef449a2d3815fdd4b8ab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 100
-  position: {x: 0, y: 0, z: 0}
-  rotation: {x: 0, y: 0, z: 0, w: 1}
-  speed: 10
-  rotationSpeed: 10
-  reloadSpeed: 5
-  accuracy: 90
-  visionSphere: {fileID: 3551795317700772033}
-  _cannonLeft: {fileID: 8198449405806933634}
-  _cannonFront: {fileID: 3510254886576384034}
-  _cannonRight: {fileID: 1865225063360581814}
-  boatMoving: {fileID: 0}
-  audioSRC: {fileID: 0}
-  dying: 0
-  wandering: 1
-  atBack: 0
 --- !u!82 &8737467891974235115
 AudioSource:
   m_ObjectHideFlags: 0
@@ -440,7 +412,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 76cdffcfae13f194cb3eaac04598375c, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -524,6 +496,34 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &2089113015057735549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7222537879436563100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbcd1392ab5cef449a2d3815fdd4b8ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100
+  position: {x: 0, y: 0, z: 0}
+  rotation: {x: 0, y: 0, z: 0, w: 1}
+  speed: 10
+  rotationSpeed: 10
+  reloadSpeed: 5
+  accuracy: 90
+  visionSphere: {fileID: 3551795317700772033}
+  _cannonLeft: {fileID: 8198449405806933634}
+  _cannonFront: {fileID: 3510254886576384034}
+  _cannonRight: {fileID: 1865225063360581814}
+  boatMoving: {fileID: 8300000, guid: 76cdffcfae13f194cb3eaac04598375c, type: 3}
+  audioSRC: {fileID: 0}
+  dying: 0
+  wandering: 1
+  atBack: 0
 --- !u!1 &8457703061111911330
 GameObject:
   m_ObjectHideFlags: 0
