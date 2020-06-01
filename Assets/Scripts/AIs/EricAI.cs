@@ -12,7 +12,7 @@ public class EricAI : Ship
 {
     public bool wandering = true;
     public bool atBack = false;
-   
+
 
 
 
@@ -79,9 +79,20 @@ public class EricAI : Ship
         {
             Debug.Log("at the edge");
             wandering = false;
-            transform.LookAt(Vector3.zero);
+            Vector2 targetDir = new Vector2(-position.x, -position.y);
+            yield return RotTo(targetDir);
+            
+            
             yield return MoveForward(10);
             wandering = true;
         }
+    }
+
+    private IEnumerator RotTo(Vector2 direction)
+    {
+        Vector2 forward = transform.forward;
+        float degree = Vector2.SignedAngle(direction, new Vector2(forward.x, forward.y));
+        if (Math.Abs(degree) > 0.10f)
+            yield return Rotate(Math.Abs(degree), degree < 0 ? Direction.Left : Direction.Right);
     }
 }
