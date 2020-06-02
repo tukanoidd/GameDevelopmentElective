@@ -11,8 +11,6 @@ public class GradusAI : Ship
         while (!dying || !CompetitionManager.current.gameOver || !CompetitionManager.current.gameStarted)
         {
             yield return MoveForward(200);
-            yield return null;
-            Shoot(VisionSphere.VisionPosition.Front);
         }
     }
 }
