@@ -26,9 +26,9 @@ public class Ship : MonoBehaviour
     public Quaternion rotation = Quaternion.identity;
 
     [Header("Movement Data")] [Range(10, 50)]
-    public float speed = 10;
+    public float speed = 30;
 
-    [Range(10, 25)] public float rotationSpeed = 10;
+    [Range(10, 25)] public float rotationSpeed = 25;
 
     [Header("Shooting Data")] [Range(5, 15)]
     public float reloadSpeed = 5;
