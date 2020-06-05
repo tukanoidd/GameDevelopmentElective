@@ -8,7 +8,6 @@ using UnityEngine.AI;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(CharacterController))]
-[RequireComponent(typeof(SphereCollider))]
 [RequireComponent(typeof(BoxCollider))]
 public class Ship : MonoBehaviour
 {
