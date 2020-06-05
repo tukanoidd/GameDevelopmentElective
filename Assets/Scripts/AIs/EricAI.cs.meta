@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: dbcd1392ab5cef449a2d3815fdd4b8ab
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - visionSphere: {instanceID: 0}
+  - _cannonLeft: {instanceID: 0}
+  - _cannonFront: {instanceID: 0}
+  - _cannonRight: {instanceID: 0}
+  - boatMoving: {fileID: 8300000, guid: 76cdffcfae13f194cb3eaac04598375c, type: 3}
+  - audioSRC: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
