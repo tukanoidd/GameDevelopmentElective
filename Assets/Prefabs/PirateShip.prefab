@@ -189,9 +189,7 @@ GameObject:
   - component: {fileID: 6732724274104520258}
   - component: {fileID: 4529641964278838392}
   - component: {fileID: 1977667819812103144}
-  - component: {fileID: 8316681641736198414}
   - component: {fileID: 114935950901250498}
-  - component: {fileID: -9065508598256119046}
   m_Layer: 0
   m_Name: PirateShip
   m_TagString: Boat
@@ -249,19 +247,6 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1.5, z: 0}
---- !u!135 &8316681641736198414
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7222537879436563100}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &114935950901250498
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -288,34 +273,6 @@ MonoBehaviour:
   audioSRC: {fileID: 0}
   boatMoving: {fileID: 8300000, guid: 76cdffcfae13f194cb3eaac04598375c, type: 3}
   dying: 0
---- !u!114 &-9065508598256119046
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7222537879436563100}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dbcd1392ab5cef449a2d3815fdd4b8ab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 100
-  position: {x: 0, y: 0, z: 0}
-  rotation: {x: 0, y: 0, z: 0, w: 1}
-  speed: 10
-  rotationSpeed: 10
-  reloadSpeed: 5
-  accuracy: 90
-  visionSphere: {fileID: 3551795317700772033}
-  _cannonLeft: {fileID: 8198449405806933634}
-  _cannonFront: {fileID: 3510254886576384034}
-  _cannonRight: {fileID: 1865225063360581814}
-  audioSRC: {fileID: 0}
-  boatMoving: {fileID: 0}
-  dying: 0
-  wandering: 1
-  atBack: 0
 --- !u!1 &8457703061111911330
 GameObject:
   m_ObjectHideFlags: 0
