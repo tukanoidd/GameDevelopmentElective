@@ -176,6 +176,7 @@ public class Ship : MonoBehaviour
     /// <returns></returns>
     protected IEnumerator MoveForward(float distance)
     {
+        SoundMoving();
         if (rotating || moving) yield break;
 
         moving = true;
@@ -185,8 +186,8 @@ public class Ship : MonoBehaviour
         
         while (distanceWent <= distance)
         {
-            audioSRC.PlayOneShot(boatMoving, 0.9f);
             
+           
             startPos = transform.position;
             _shipController.SimpleMove(transform.forward * speed);
             distanceWent += Vector3.Distance(startPos, transform.position);
@@ -353,6 +354,11 @@ public class Ship : MonoBehaviour
             timeBurnt += FireBoat.damageInterval;
             ApplyDamage(FireBoat.fireDamage);
         }
+    }
+
+    private void SoundMoving()
+    {
+        audioSRC.PlayOneShot(audioSRC.clip);
     }
 
     protected void Shoot(VisionSphere.VisionPosition position)

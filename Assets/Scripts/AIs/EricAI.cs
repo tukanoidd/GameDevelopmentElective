@@ -15,6 +15,7 @@ public class EricAI : Ship
 
     [SerializeField] private bool wandering = true;
     [SerializeField] private bool atBack = false;
+    private Ship shipNear => visibleShips.Where(ship => Vector3.Distance(position, ship.position) <= 200 && !ship.dying).OrderBy(ship => ship.health).FirstOrDefault();
 
 
     public override IEnumerator RunAI(object caller)
@@ -22,33 +23,54 @@ public class EricAI : Ship
         if (!(caller is CompetitionManager)) yield break;
         while (dying == false || !CompetitionManager.current.gameOver || !CompetitionManager.current.gameStarted)
         {
-            if (atBack == false)
-            {
-                //yield return visionSphere.MoveToDirection(VisionSphere.VisionPosition.Back);
-                atBack = true;
-            }
-            else
-            {
-                //yield return visionSphere.MoveToDirection(VisionSphere.VisionPosition.Back);
+           // if (atBack == false)
+            //{
+               // yield return visionSphere.MoveToDirection(VisionSphere.VisionPosition.Back);
+                //atBack = true;
+           // }
+            //else
+            //{
+               // yield return visionSphere.MoveToDirection(VisionSphere.VisionPosition.Back);
                 //yield return visionSphere.MoveToDirection(VisionSphere.VisionPosition.Front);
-                atBack = false;
-            }
+               // atBack = false;
+            //}
 
             if (wandering)
             {
                 for (int i = 0; i < 100; i++)
                 {
-                    //yield return visionSphere.MoveToDirection(VisionSphere.VisionPosition.Back);
+                   
+                    yield return MoveForward(100);
+                    Shoot(VisionSphere.VisionPosition.Front);
+                    Shoot(VisionSphere.VisionPosition.Left);
+                    Shoot(VisionSphere.VisionPosition.Right);
+                   // yield return visionSphere.MoveToDirection(VisionSphere.VisionPosition.Back);
                     yield return EdgeDetection(1f);
 
                     yield return Rotate(45, Direction.Left);
                     Shoot(VisionSphere.VisionPosition.Front);
                     Shoot(VisionSphere.VisionPosition.Left);
                     Shoot(VisionSphere.VisionPosition.Right);
-                    yield return MoveForward(100);
-                    Shoot(VisionSphere.VisionPosition.Front);
-                    Shoot(VisionSphere.VisionPosition.Left);
-                    Shoot(VisionSphere.VisionPosition.Right);
+                }
+
+                if (visiblePowerUps.Any())
+                {
+                    Debug.Log("found shit!");
+                    wandering = false;
+                    yield return PowerUpNear();
+                    wandering = true;
+                }
+
+                if (visibleShips.Any() && !visiblePowerUps.Any())
+                {
+                    wandering = false;
+                    yield return ShipNear();
+
+                }
+
+                if (!visibleShips.Any() && !visiblePowerUps.Any())
+                {
+                    wandering = true;
                 }
             }
         }
@@ -65,7 +87,7 @@ public class EricAI : Ship
             
             
 
-            //transform.LookAt(Vector3.zero);
+           
 
             yield return MoveForward(10);
             wandering = true;
@@ -80,6 +102,25 @@ public class EricAI : Ship
         if (Math.Abs(degree) > 0.10f)
             yield return Rotate(Math.Abs(degree), degree < 0 ? Direction.Left : Direction.Right);
     }
+    private IEnumerator PowerUpNear()
+    {
+        PowerUp powerNear = visiblePowerUps.OrderBy(powerUp => Vector3.Distance(powerUp.transform.position, position)).First();
+        Vector2 nearestPower = new Vector2(powerNear.transform.position.x, powerNear.transform.position.y);
+        Debug.Log("power-up in sight");
+        yield return RotTo(nearestPower);
+        yield return MoveForward(50);
+
+    }
+
+    private IEnumerator ShipNear()
+    {
+       Vector2 nearShip = new  Vector2(shipNear.transform.position.x, shipNear.transform.position.y);
+       Debug.Log("enemy spotted");
+       yield return RotTo(nearShip);
+       yield return MoveForward(50);
+       Shoot(VisionSphere.VisionPosition.Front);
+    }
+   
 }
 
 

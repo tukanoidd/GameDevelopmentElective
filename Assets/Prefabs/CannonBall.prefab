@@ -99,6 +99,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 5
   fire: 0
+  parentShip: {fileID: 0}
 --- !u!198 &695329460
 ParticleSystem:
   m_ObjectHideFlags: 0
