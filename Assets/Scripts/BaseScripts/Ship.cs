@@ -214,6 +214,7 @@ public class Ship : MonoBehaviour
     /// </summary>
     /// <param name="ship">Ship to add</param>
     public void AddVisibleShip(Ship ship) => visibleShips.Add(ship);
+    
 
     /// <summary>
     /// Remove ship from visible ships list
