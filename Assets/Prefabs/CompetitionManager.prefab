@@ -1,35 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1795265066
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1795265067}
-  m_Layer: 0
-  m_Name: SpawnPoint5
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1795265067
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1795265066}
-  m_LocalRotation: {x: 0, y: 0.92387956, z: 0, w: 0.38268343}
-  m_LocalPosition: {x: -338, y: 0, z: 400}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 8487527656895139047}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 135, z: 0}
 --- !u!1 &429784672094165728
 GameObject:
   m_ObjectHideFlags: 0
@@ -54,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 429784672094165728}
   m_LocalRotation: {x: 0, y: 0.92387956, z: 0, w: 0.38268343}
-  m_LocalPosition: {x: -67, y: 0, z: 400}
+  m_LocalPosition: {x: -401, y: 0, z: 400}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8487527656895139047}
@@ -114,7 +84,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5056193381822705017}
   m_LocalRotation: {x: 0, y: -0.38268343, z: 0, w: 0.92387956}
-  m_LocalPosition: {x: 167, y: 0, z: -400}
+  m_LocalPosition: {x: 406, y: 0, z: -400}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8487527656895139047}
@@ -144,7 +114,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7764882052362460658}
   m_LocalRotation: {x: 0, y: -0.92387956, z: 0, w: 0.38268343}
-  m_LocalPosition: {x: 400, y: 0, z: 3}
+  m_LocalPosition: {x: 400, y: 0, z: 400}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8487527656895139047}
@@ -182,7 +152,6 @@ Transform:
   - {fileID: 2481412349284476679}
   - {fileID: 8833215302825460878}
   - {fileID: 270430813387700006}
-  - {fileID: 1795265067}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -199,9 +168,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameStarted: 0
-  gameOver: 0
-  powerupsInterval: 10
-  powerupSpawnRadius: 20
+  gameOver: 1
   mapCenter: {x: 0, y: 0, z: 0}
   mapSize: {x: 1000, y: 0, z: 1000}
   spawnPoints:
@@ -209,11 +176,15 @@ MonoBehaviour:
   - {fileID: 2481412349284476679}
   - {fileID: 8833215302825460878}
   - {fileID: 270430813387700006}
-  - {fileID: 1795265067}
+  - {fileID: 0}
   shipPrefabs:
-  - {fileID: 7222537879436563100, guid: 94110ca0e17004efabeabf32fc70e56d, type: 3}
+  - {fileID: 7222537879436563100, guid: 34a8cf5fdde0b2fa992524aea4556869, type: 3}
+  - {fileID: 7222537879436563100, guid: ea6d76ff5e877f097a36b37dba93e8f7, type: 3}
   powerupPrefabs:
   - {fileID: 2103667017415243109, guid: 8f7bfbc6e246bab4b91d4e0b1e79b8f1, type: 3}
   - {fileID: 2103667017415243109, guid: e391eed4a98bdfd46aa926ba1e2a9fa0, type: 3}
   - {fileID: 2103667017415243109, guid: c1ee479cb3d174e4b823e7bdc012244b, type: 3}
   powerupSpawnCenter: {fileID: 0}
+  maxPowerUpsNum: 5
+  powerupsInterval: 1.6
+  powerupSpawnRadius: 150

@@ -88,7 +88,7 @@ public class Ship : MonoBehaviour
     {
         //START WITH
         //if (!(caller is CompetitionManager)) yield break;
-        //while (!dying || !CompetitionManager.current.gameOver || !CompetitionManager.current.gameStarted) {
+        //while ((CompetitionManager.current.gameStarted) && (!dying || !CompetitionManager.current.gameOver)) {
         //    your code here
         //} when implementing
 
@@ -209,6 +209,7 @@ public class Ship : MonoBehaviour
     /// </summary>
     /// <param name="ship">Ship to add</param>
     public void AddVisibleShip(Ship ship) => visibleShips.Add(ship);
+    
 
     /// <summary>
     /// Remove ship from visible ships list
@@ -233,15 +234,15 @@ public class Ship : MonoBehaviour
     /// </summary>
     /// <param name="existingPowerUps">Existing powerUps</param>
     public void UpdateVisiblePowerUps(HashSet<PowerUp> existingPowerUps) => visiblePowerUps =
-        new HashSet<PowerUp>(visiblePowerUps.Where(powerUp => existingPowerUps.Contains(powerUp)));
+        new HashSet<PowerUp>(visiblePowerUps.Where(powerUp => powerUp != null && existingPowerUps.Contains(powerUp)));
 
     /// <summary>
     /// Set picked powerup
     /// </summary>
-    /// <param name="powerup">Object to check if this methos was called from the powerup object itself</param>
+    /// <param name="powerup">Object to check if this method was called from the powerup object itself</param>
     public void SetPowerUp(object powerup)
     {
-        if (powerup is PowerUp) this.powerup = ((PowerUp) powerup).powerUpType;
+        if (powerup is PowerUp up) this.powerup = up.powerUpType;
     }
 
     /// <summary>

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(SphereCollider))]
+[RequireComponent(typeof(Rigidbody))]
 public class VisionSphere : MonoBehaviour
 {
     public enum VisionPosition
@@ -41,7 +42,7 @@ public class VisionSphere : MonoBehaviour
                 break;
             case VisionPosition.Right:
                 if (newPosition == VisionPosition.Back) angle = 90;
-                else if (newPosition == VisionPosition.Left) angle = 180;
+                else if (newPosition == VisionPosition.Left) angle = 360;
                 else if (newPosition == VisionPosition.Front) angle = -90;
                 
                 break;

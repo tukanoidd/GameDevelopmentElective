@@ -19,7 +19,7 @@ public class VitaliiAI : Ship
     public override IEnumerator RunAI(object caller)
     {
         if (!(caller is CompetitionManager)) yield break;
-        while (!dying || !CompetitionManager.current.gameOver || !CompetitionManager.current.gameStarted)
+        while ((CompetitionManager.current.gameStarted) && (!dying || !CompetitionManager.current.gameOver))
         {
             if (!visibleShips.Any() && !visiblePowerUps.Any())
             {
@@ -59,7 +59,8 @@ public class VitaliiAI : Ship
                 if (CanHeal && health < 100 - Healing.amountToAdd)
                     StartCoroutine(UseHealingPowerUp());
 
-                yield return FindAndGoToNearestPowerUp();
+                if (HasPowerup) yield return Explore();
+                else yield return FindAndGoToNearestPowerUp();
             }
             else if (visibleShips.Any() && visiblePowerUps.Any())
             {
@@ -129,8 +130,8 @@ public class VitaliiAI : Ship
         Vector2 mapPos = new Vector2(position.x, position.z);
 
         yield return RotateToward(targetMapPos - mapPos);
-        yield return MoveForward(Vector2.Distance(targetMapPos, mapPos));
         yield return visionSphere.MoveToDirection(VisionSphere.VisionPosition.Front);
+        yield return MoveForward(Vector2.Distance(targetMapPos, mapPos));
     }
 
     private IEnumerator VitaliiAIShoot(Ship shipToAttack)
@@ -175,10 +176,15 @@ public class VitaliiAI : Ship
 
     private IEnumerator FindAndGoToNearestPowerUp()
     {
-        PowerUp nearestPowerUp = visiblePowerUps
-            .OrderBy(powerUp => Vector3.Distance(powerUp.transform.position, position)).First();
+        UpdateVisiblePowerUps(visiblePowerUps);
+        if (!visiblePowerUps.Any()) yield return Explore();
+        else
+        {
+            PowerUp nearestPowerUp = visiblePowerUps
+                .OrderBy(powerUp => Vector3.Distance(powerUp.transform.position, position)).First();
 
-        yield return VitaliiAIMoveToward(nearestPowerUp.transform.position);
+            yield return VitaliiAIMoveToward(nearestPowerUp.transform.position);   
+        }
     }
 
     private IEnumerator CheckShipAndShoot(Ship shipToAttack)

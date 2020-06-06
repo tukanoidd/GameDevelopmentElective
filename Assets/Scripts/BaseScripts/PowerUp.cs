@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(MeshRenderer))]
 [RequireComponent(typeof(BoxCollider))]
 [RequireComponent(typeof(MeshFilter))]
+[RequireComponent(typeof(Rigidbody))]
 public class PowerUp : MonoBehaviour
 {
     public PowerUpType powerUpType = PowerUpType.None;
@@ -15,14 +16,15 @@ public class PowerUp : MonoBehaviour
         transform.Rotate(0, rotationSpeed * Time.fixedDeltaTime, 0);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision other)
     {
-        Ship checkShip = other.GetComponent<Ship>();
+        Ship checkShip = other.gameObject.GetComponent<Ship>();
         if (checkShip != null && !checkShip.HasPowerup)
         {
+            
             checkShip.SetPowerUp(this);
         
-            Destroy(this);   
+            Destroy(gameObject);   
         }
     }
 }
