@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Linq;
+using BaseScripts;
 using UnityEngine;
 
 public class EricAI : Ship
 {
-    [SerializeField] private bool wandering = true;
-    [SerializeField] private bool atBack = false;
+    [SerializeField] private bool wandering;
+    [SerializeField] private bool atLeft = false;
 
     private Ship shipNear => visibleShips.Where(ship => Vector3.Distance(position, ship.position) <= 200 && !ship.dying)
         .OrderBy(ship => ship.health).FirstOrDefault();
@@ -16,36 +17,40 @@ public class EricAI : Ship
         if (!(caller is CompetitionManager)) yield break;
         while (dying == false || !CompetitionManager.current.gameOver || !CompetitionManager.current.gameStarted)
         {
-            // if (atBack == false)
-            //{
-            // yield return visionSphere.MoveToDirection(VisionSphere.VisionPosition.Back);
-            //atBack = true;
-            // }
-            //else
-            //{
-            // yield return visionSphere.MoveToDirection(VisionSphere.VisionPosition.Back);
-            //yield return visionSphere.MoveToDirection(VisionSphere.VisionPosition.Front);
-            // atBack = false;
-            //}
-
             if (wandering)
             {
+                
+                    
+                
+                
                 for (int i = 0; i < 100; i++)
                 {
+                    
                     yield return MoveForward(100);
+                    yield return visionSphere.MoveToDirection(VisionSphere.VisionPosition.Back);
                     Shoot(VisionSphere.VisionPosition.Front);
                     Shoot(VisionSphere.VisionPosition.Left);
                     Shoot(VisionSphere.VisionPosition.Right);
-                    // yield return visionSphere.MoveToDirection(VisionSphere.VisionPosition.Back);
-                    yield return EdgeDetection(1f);
-
                     yield return Rotate(45, Direction.Left);
                     Shoot(VisionSphere.VisionPosition.Front);
                     Shoot(VisionSphere.VisionPosition.Left);
                     Shoot(VisionSphere.VisionPosition.Right);
+                  
+                    
+                    
+                    yield return EdgeDetection(1f);
+
+                   
                 }
 
-                if (visiblePowerUps.Any())
+                if (visiblePowerUps.Any() && !visibleShips.Any() && powerup == PowerUpType.Healing && health <= 50)
+                {
+                    StartCoroutine(UseHealingPowerUp());
+                }
+
+               
+
+                if (visiblePowerUps.Any() && !visibleShips.Any())
                 {
                     Debug.Log("found shit!");
                     wandering = false;
@@ -53,10 +58,25 @@ public class EricAI : Ship
                     wandering = true;
                 }
 
-                if (visibleShips.Any() && !visiblePowerUps.Any())
+                if (powerup == PowerUpType.Speeder)
+                {
+                    StartCoroutine(UseSpeederPowerUp());
+                }
+
+                if (visibleShips.Any())
                 {
                     wandering = false;
+                    Shoot(VisionSphere.VisionPosition.Front);
                     yield return ShipNear();
+                    if (powerup == PowerUpType.FireBoat)
+                    {
+                        StartCoroutine(UseFireBoatPowerUp());
+                    }
+
+                    if (powerup == PowerUpType.Kraken)
+                    {
+                        StartCoroutine(UseKrakenPowerUp());
+                    }
                 }
 
                 if (!visibleShips.Any() && !visiblePowerUps.Any())
