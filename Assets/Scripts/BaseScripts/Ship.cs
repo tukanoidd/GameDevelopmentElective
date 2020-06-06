@@ -110,6 +110,11 @@ public class Ship : MonoBehaviour
 
             Destroy(checkCannonBall);
         }
+
+        if (other.gameObject.CompareTag("Kraken"))
+        {
+            ApplyDamage(Kraken.amount);
+        }
     }
 
     /// <summary>
