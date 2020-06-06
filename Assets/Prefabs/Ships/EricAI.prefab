@@ -25,9 +25,13 @@ MonoBehaviour:
   _cannonRight: {fileID: 4856779791407200925}
   audioSRC: {fileID: 997801242193973536}
   boatMoving: {fileID: 8300000, guid: 76cdffcfae13f194cb3eaac04598375c, type: 3}
+  aFlame: {fileID: 8300000, guid: 03f4f15f476b4774fa8879d1378cddf5, type: 3}
+  Monster: {fileID: 8300000, guid: 3ecdccb41bf13b44fb0e36885f555c51, type: 3}
+  Damaged: {fileID: 8300000, guid: 6ad69075e10aaaf4ebbe86408a4136ee, type: 3}
+  Sink: {fileID: 8300000, guid: b551f8e7a020b2d42adf7bc43d7bfe66, type: 3}
   dying: 0
   wandering: 1
-  atBack: 0
+  atLeft: 0
 --- !u!1001 &6522376836064504363
 PrefabInstance:
   m_ObjectHideFlags: 0

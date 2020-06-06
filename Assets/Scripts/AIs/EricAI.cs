@@ -17,6 +17,7 @@ public class EricAI : Ship
         if (!(caller is CompetitionManager)) yield break;
         while ((CompetitionManager.current.gameStarted) && (!dying || !CompetitionManager.current.gameOver))
         {
+            
             if (wandering)
             {
                 
@@ -25,20 +26,22 @@ public class EricAI : Ship
                 
                 for (int i = 0; i < 100; i++)
                 {
-                    
-                    yield return MoveForward(100);
-                    yield return visionSphere.MoveToDirection(VisionSphere.VisionPosition.Back);
-                    Shoot(VisionSphere.VisionPosition.Front);
-                    Shoot(VisionSphere.VisionPosition.Left);
-                    Shoot(VisionSphere.VisionPosition.Right);
-                    yield return Rotate(45, Direction.Left);
-                    Shoot(VisionSphere.VisionPosition.Front);
-                    Shoot(VisionSphere.VisionPosition.Left);
-                    Shoot(VisionSphere.VisionPosition.Right);
-                  
-                    
-                    
                     yield return EdgeDetection(1f);
+                    yield return MoveForward(100);
+                    Shoot(VisionSphere.VisionPosition.Front);
+                    Shoot(VisionSphere.VisionPosition.Left);
+                    Shoot(VisionSphere.VisionPosition.Right);
+                    yield return EdgeDetection(1f);
+                    yield return Rotate(45, Direction.Left);
+                    yield return EdgeDetection(1f);
+                    Shoot(VisionSphere.VisionPosition.Front);
+                    Shoot(VisionSphere.VisionPosition.Left);
+                    Shoot(VisionSphere.VisionPosition.Right);
+                    yield return EdgeDetection(1f);
+
+                    
+                    
+                    
 
                    
                 }
@@ -46,6 +49,11 @@ public class EricAI : Ship
                 if (visiblePowerUps.Any() && !visibleShips.Any() && powerup == PowerUpType.Healing && health <= 50)
                 {
                     StartCoroutine(UseHealingPowerUp());
+                }
+
+                if (visiblePowerUps.Any())
+                {
+                    Debug.Log("Powerups!");
                 }
 
                
@@ -65,6 +73,7 @@ public class EricAI : Ship
 
                 if (visibleShips.Any())
                 {
+                    Debug.Log("Ship ahoy");
                     wandering = false;
                     Shoot(VisionSphere.VisionPosition.Front);
                     yield return ShipNear();
@@ -89,11 +98,11 @@ public class EricAI : Ship
 
     private IEnumerator EdgeDetection(float direction)
     {
-        if (Math.Abs(position.x) > 410 || Math.Abs(position.z) > 410)
+        if (Math.Abs(position.x) > 400 || Math.Abs(position.z) > 400)
         {
             wandering = false;
 
-            Vector2 targetDir = new Vector2(-position.x, -position.y);
+            Vector2 targetDir = new Vector2(-position.x, -position.z);
             yield return RotTo(targetDir);
 
 
@@ -118,7 +127,7 @@ public class EricAI : Ship
         Vector2 nearestPower = new Vector2(powerNear.transform.position.x, powerNear.transform.position.y);
         Debug.Log("power-up in sight");
         yield return RotTo(nearestPower);
-        yield return MoveForward(50);
+        yield return MoveForward(200);
     }
 
     private IEnumerator ShipNear()
@@ -126,7 +135,7 @@ public class EricAI : Ship
         Vector2 nearShip = new Vector2(shipNear.transform.position.x, shipNear.transform.position.y);
         Debug.Log("enemy spotted");
         yield return RotTo(nearShip);
-        yield return MoveForward(50);
+        yield return MoveForward(200);
         Shoot(VisionSphere.VisionPosition.Front);
     }
 }

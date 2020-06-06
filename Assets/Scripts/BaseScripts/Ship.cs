@@ -44,6 +44,11 @@ public class Ship : MonoBehaviour
     [Header("Audio")]
     [SerializeField] private AudioSource audioSRC;
     [SerializeField] private AudioClip boatMoving;
+    [SerializeField] private AudioClip aFlame;
+    [SerializeField] private AudioClip Monster;
+    [SerializeField] private AudioClip Damaged;
+    [SerializeField] private AudioClip Sink;
+    
 
     [Space(20)] [HideInInspector] public bool dying = false;
 
@@ -128,6 +133,7 @@ public class Ship : MonoBehaviour
     private void ApplyDamage(float damage)
     {
         health = Mathf.Clamp(health - damage, 0, 100);
+        Impact();
 
         if (Mathf.Abs(health) < 0.05f) Death();
     }
@@ -141,6 +147,7 @@ public class Ship : MonoBehaviour
 
         //todo explosion animation
         CompetitionManager.current.RemoveShip(this);
+        SoundDeath();
 
         //destroy object when animation ends or smth
         Destroy(gameObject);
@@ -278,7 +285,8 @@ public class Ship : MonoBehaviour
     {
         if (powerup != PowerUpType.Kraken) yield break;
         powerup = PowerUpType.None;
-
+        SoundMonster();
+        
         List<GameObject> tentacles = new List<GameObject>();
 
         powerup = PowerUpType.None;
@@ -311,6 +319,7 @@ public class Ship : MonoBehaviour
     /// <returns></returns>
     protected IEnumerator UseFireBoatPowerUp()
     {
+        SoundFire();
         if (powerup != PowerUpType.FireBoat) yield break;
         powerup = PowerUpType.None;
 
@@ -358,7 +367,26 @@ public class Ship : MonoBehaviour
 
     private void SoundMoving()
     {
-        audioSRC.PlayOneShot(audioSRC.clip);
+        audioSRC.PlayOneShot(boatMoving);
+    }
+
+    private void SoundFire()
+    {
+        audioSRC.PlayOneShot(aFlame);
+    }
+
+    private void SoundMonster()
+    {
+        audioSRC.PlayOneShot(Monster);
+    }
+
+    private void Impact()
+    {
+        audioSRC.PlayOneShot(Damaged);
+    }
+    private void SoundDeath()
+    {
+        audioSRC.PlayOneShot(Sink);
     }
 
     protected void Shoot(VisionSphere.VisionPosition position)
