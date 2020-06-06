@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -27,8 +28,9 @@ public class CompetitionManager : MonoBehaviour
     [SerializeField] private Transform powerupSpawnCenter;
     [SerializeField] [Range(1, 15)] private int maxPowerUpsNum = 5;
     [SerializeField] [Range(1, 30)] private float powerupsInterval = 10;
-    [SerializeField] [Range(1, 150)] private float powerupSpawnRadius = 20;
+    [SerializeField] [Range(1, 400)] private float powerupSpawnRadius = 250;
 
+    private bool _powerupSpawnCoroutineFinished = true;
     private HashSet<PowerUp> _powerupsSpawned = new HashSet<PowerUp>();
 
     private List<Ship> _ships = new List<Ship>();
@@ -36,9 +38,7 @@ public class CompetitionManager : MonoBehaviour
     private void Awake()
     {
         current = this;
-
         SpawnShips();
-        StartCoroutine(SpawnPowerup());
     }
 
     private void Update()
@@ -51,6 +51,11 @@ public class CompetitionManager : MonoBehaviour
                 foreach (Ship ship in _ships) StartCoroutine(ship.RunAI(this));
                 StartCoroutine(SpawnPowerup());
             }
+        }
+
+        if (!gameOver && gameStarted && _powerupSpawnCoroutineFinished)
+        {
+            StartCoroutine(SpawnPowerup());
         }
     }
 
@@ -68,6 +73,8 @@ public class CompetitionManager : MonoBehaviour
 
     private IEnumerator SpawnPowerup()
     {
+        _powerupSpawnCoroutineFinished = false;
+
         if (powerupPrefabs.Length > 0 && powerupSpawnCenter)
         {
             _powerupsSpawned = new HashSet<PowerUp>(_powerupsSpawned.Where(powerUp => powerUp != null));
@@ -75,7 +82,7 @@ public class CompetitionManager : MonoBehaviour
             if (_powerupsSpawned.Count < maxPowerUpsNum)
             {
                 foreach (Ship ship in _ships) ship.UpdateVisiblePowerUps(_powerupsSpawned);
-                
+
                 int randInd = new System.Random().Next(0, powerupPrefabs.Length);
 
                 Vector2 spawnPos = Random.insideUnitCircle * powerupSpawnRadius;
@@ -93,8 +100,10 @@ public class CompetitionManager : MonoBehaviour
             }
         }
 
+        if (gameOver) yield break;
         yield return new WaitForSeconds(powerupsInterval);
-        StartCoroutine(SpawnPowerup());
+
+        _powerupSpawnCoroutineFinished = true;
     }
 
     public void RemoveShip(Ship ship)
