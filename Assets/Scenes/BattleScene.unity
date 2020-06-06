@@ -283,7 +283,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 410659943}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -411, y: 0.67, z: -191}
+  m_LocalPosition: {x: -411, y: 20, z: -191}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -878,10 +878,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2481412349284476679, guid: 511990faeaadf4428964da901f8ee2fb,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 396
+      objectReference: {fileID: 0}
     - target: {fileID: 8487527656895139046, guid: 511990faeaadf4428964da901f8ee2fb,
         type: 3}
-      propertyPath: shipPrefabs.Array.size
-      value: 2
+      propertyPath: powerupPrefabs.Array.size
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8487527656895139046, guid: 511990faeaadf4428964da901f8ee2fb,
         type: 3}
@@ -890,41 +895,55 @@ PrefabInstance:
       objectReference: {fileID: 410659944}
     - target: {fileID: 8487527656895139046, guid: 511990faeaadf4428964da901f8ee2fb,
         type: 3}
-      propertyPath: powerupsInterval
-      value: 1.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 8487527656895139046, guid: 511990faeaadf4428964da901f8ee2fb,
-        type: 3}
-      propertyPath: powerupSpawnRadius
-      value: 150
-      objectReference: {fileID: 0}
-    - target: {fileID: 8487527656895139046, guid: 511990faeaadf4428964da901f8ee2fb,
-        type: 3}
-      propertyPath: gameStarted
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8487527656895139046, guid: 511990faeaadf4428964da901f8ee2fb,
-        type: 3}
-      propertyPath: gameOver
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8487527656895139046, guid: 511990faeaadf4428964da901f8ee2fb,
-        type: 3}
-      propertyPath: 
+      propertyPath: powerupPrefabs.Array.data[1]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2482523467432413617, guid: bd08a29466b45ac40bde50820e5a60f9,
+        type: 3}
+    - target: {fileID: 8487527656895139046, guid: 511990faeaadf4428964da901f8ee2fb,
+        type: 3}
+      propertyPath: powerupPrefabs.Array.data[2]
+      value: 
+      objectReference: {fileID: 1154391735798004768, guid: c0e7f918c4e6ea648a4002d1497acecb,
+        type: 3}
+    - target: {fileID: 8487527656895139046, guid: 511990faeaadf4428964da901f8ee2fb,
+        type: 3}
+      propertyPath: powerupPrefabs.Array.data[3]
+      value: 
+      objectReference: {fileID: 6142980644912165815, guid: 482c21bc26bcabf43900a35910335177,
+        type: 3}
     - target: {fileID: 8487527656895139046, guid: 511990faeaadf4428964da901f8ee2fb,
         type: 3}
       propertyPath: shipPrefabs.Array.data[0]
       value: 
-      objectReference: {fileID: 7222537879436563100, guid: 34a8cf5fdde0b2fa992524aea4556869,
+      objectReference: {fileID: 5544074094735034044, guid: 2c2732ebcd77cdd46ab4c01df903ae0b,
         type: 3}
     - target: {fileID: 8487527656895139046, guid: 511990faeaadf4428964da901f8ee2fb,
         type: 3}
       propertyPath: shipPrefabs.Array.data[1]
       value: 
-      objectReference: {fileID: 7222537879436563100, guid: ea6d76ff5e877f097a36b37dba93e8f7,
+      objectReference: {fileID: 4521535701451471031, guid: 0c36ba073d092154fa2dd6565cbfe165,
         type: 3}
+    - target: {fileID: 8487527656895139046, guid: 511990faeaadf4428964da901f8ee2fb,
+        type: 3}
+      propertyPath: powerupPrefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: 3088378383874638750, guid: b7949934b9cffb543a33aed18cc97a8f,
+        type: 3}
+    - target: {fileID: 8487527656895139046, guid: 511990faeaadf4428964da901f8ee2fb,
+        type: 3}
+      propertyPath: gameOver
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8487527656895139046, guid: 511990faeaadf4428964da901f8ee2fb,
+        type: 3}
+      propertyPath: powerupSpawnMinDistance
+      value: 240
+      objectReference: {fileID: 0}
+    - target: {fileID: 8487527656895139046, guid: 511990faeaadf4428964da901f8ee2fb,
+        type: 3}
+      propertyPath: powerupSpawnRadius
+      value: 250
+      objectReference: {fileID: 0}
     - target: {fileID: 8487527656895139047, guid: 511990faeaadf4428964da901f8ee2fb,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -984,6 +1003,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CompetitionManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 8771772981144662787, guid: 511990faeaadf4428964da901f8ee2fb,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -400
+      objectReference: {fileID: 0}
+    - target: {fileID: 8771772981144662787, guid: 511990faeaadf4428964da901f8ee2fb,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -395
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 511990faeaadf4428964da901f8ee2fb, type: 3}
