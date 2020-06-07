@@ -11,19 +11,14 @@ public class EricAI : Ship
 
     private Ship shipNear => visibleShips.Where(ship => Vector3.Distance(position, ship.position) <= 200 && !ship.dying)
         .OrderBy(ship => ship.health).FirstOrDefault();
-    
+
     public override IEnumerator RunAI(object caller)
     {
         if (!(caller is CompetitionManager)) yield break;
         while ((CompetitionManager.current.gameStarted) && (!dying || !CompetitionManager.current.gameOver))
         {
-            
             if (wandering)
             {
-                
-                    
-                
-                
                 for (int i = 0; i < 100; i++)
                 {
                     yield return EdgeDetection(1f);
@@ -32,18 +27,12 @@ public class EricAI : Ship
                     Shoot(VisionSphere.VisionPosition.Left);
                     Shoot(VisionSphere.VisionPosition.Right);
                     yield return EdgeDetection(1f);
-                   // yield return Rotate(45, Direction.Left);
+                    // yield return Rotate(45, Direction.Left);
                     yield return EdgeDetection(1f);
                     Shoot(VisionSphere.VisionPosition.Front);
                     Shoot(VisionSphere.VisionPosition.Left);
                     Shoot(VisionSphere.VisionPosition.Right);
                     yield return EdgeDetection(1f);
-
-                    
-                    
-                    
-
-                   
                 }
 
                 if (visiblePowerUps.Any() && !visibleShips.Any() && powerup == PowerUpType.Healing && health <= 50)
@@ -56,7 +45,6 @@ public class EricAI : Ship
                     Debug.Log("Powerups!");
                 }
 
-               
 
                 if (visiblePowerUps.Any() && !visibleShips.Any())
                 {
@@ -125,7 +113,8 @@ public class EricAI : Ship
         UpdateVisiblePowerUps(visiblePowerUps);
         if (visiblePowerUps.Any())
         {
-            PowerUp powerNear = visiblePowerUps.OrderBy(powerUp => Vector3.Distance(powerUp.transform.position, position))
+            PowerUp powerNear = visiblePowerUps
+                .OrderBy(powerUp => Vector3.Distance(powerUp.transform.position, position))
                 .First();
             Vector2 nearestPower = new Vector2(powerNear.transform.position.x, powerNear.transform.position.y);
             Debug.Log("power-up in sight");

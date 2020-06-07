@@ -40,15 +40,14 @@ public class Ship : MonoBehaviour
     [SerializeField] private Cannon _cannonLeft;
     [SerializeField] private Cannon _cannonFront;
     [SerializeField] private Cannon _cannonRight;
-    
-    [Header("Audio")]
-    [SerializeField] private AudioSource audioSRC;
+
+    [Header("Audio")] [SerializeField] private AudioSource audioSRC;
     [SerializeField] private AudioClip boatMoving;
     [SerializeField] private AudioClip aFlame;
     [SerializeField] private AudioClip Monster;
     [SerializeField] private AudioClip Damaged;
     [SerializeField] private AudioClip Sink;
-    
+
 
     [Space(20)] [HideInInspector] public bool dying = false;
 
@@ -160,7 +159,7 @@ public class Ship : MonoBehaviour
     /// <param name="direction">Direction in which to rotate the ship</param>
     /// <returns></returns>
     protected IEnumerator Rotate(float angle, Direction direction)
-    {       
+    {
         if (moving || rotating) yield break;
 
         rotating = true;
@@ -189,16 +188,15 @@ public class Ship : MonoBehaviour
 
         float distanceWent = 0f;
         Vector3 startPos;
-        
+
         while (distanceWent <= distance)
         {
-            
-           
             startPos = transform.position;
             _shipController.SimpleMove(transform.forward * speed);
             distanceWent += Vector3.Distance(startPos, transform.position);
             yield return null;
         }
+
         moving = false;
     }
 
@@ -216,7 +214,7 @@ public class Ship : MonoBehaviour
     /// </summary>
     /// <param name="ship">Ship to add</param>
     public void AddVisibleShip(Ship ship) => visibleShips.Add(ship);
-    
+
 
     /// <summary>
     /// Remove ship from visible ships list
@@ -286,7 +284,7 @@ public class Ship : MonoBehaviour
         if (powerup != PowerUpType.Kraken) yield break;
         powerup = PowerUpType.None;
         SoundMonster();
-        
+
         List<GameObject> tentacles = new List<GameObject>();
 
         powerup = PowerUpType.None;
@@ -384,6 +382,7 @@ public class Ship : MonoBehaviour
     {
         audioSRC.PlayOneShot(Damaged);
     }
+
     private void SoundDeath()
     {
         audioSRC.PlayOneShot(Sink);
