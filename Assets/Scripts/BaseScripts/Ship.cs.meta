@@ -3,7 +3,13 @@ guid: a267f27526dcfff4283a7446a4c9e9d4
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - visionSphere: {instanceID: 0}
+  - _cannonLeft: {instanceID: 0}
+  - _cannonFront: {instanceID: 0}
+  - _cannonRight: {instanceID: 0}
+  - audioSRC: {instanceID: 0}
+  - boatMoving: {fileID: 8300000, guid: 76cdffcfae13f194cb3eaac04598375c, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

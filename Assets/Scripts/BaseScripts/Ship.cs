@@ -8,7 +8,6 @@ using UnityEngine.AI;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(CharacterController))]
-[RequireComponent(typeof(SphereCollider))]
 [RequireComponent(typeof(BoxCollider))]
 public class Ship : MonoBehaviour
 {
@@ -41,6 +40,10 @@ public class Ship : MonoBehaviour
     [SerializeField] private Cannon _cannonLeft;
     [SerializeField] private Cannon _cannonFront;
     [SerializeField] private Cannon _cannonRight;
+    
+    [Header("Audio")]
+    [SerializeField] private AudioSource audioSRC;
+    [SerializeField] private AudioClip boatMoving;
 
     [Space(20)] [HideInInspector] public bool dying = false;
 
@@ -67,6 +70,8 @@ public class Ship : MonoBehaviour
 
         _shipCollider = GetComponent<BoxCollider>();
         _shipController = GetComponent<CharacterController>();
+        audioSRC = GetComponent<AudioSource>();
+        audioSRC.clip = boatMoving;
     }
 
     private void FixedUpdate()
@@ -83,7 +88,7 @@ public class Ship : MonoBehaviour
     {
         //START WITH
         //if (!(caller is CompetitionManager)) yield break;
-        //while (!dying || !CompetitionManager.current.gameOver || !CompetitionManager.current.gameStarted) {
+        //while ((CompetitionManager.current.gameStarted) && (!dying || !CompetitionManager.current.gameOver)) {
         //    your code here
         //} when implementing
 
@@ -94,10 +99,10 @@ public class Ship : MonoBehaviour
     /// Checking for cannonball collision 
     /// </summary>
     /// <param name="other">Object collided with</param>
-    private void OnCollisionEnter(Collision other)
+    private void OnTriggerEnter(Collider other)
     {
         CannonBall checkCannonBall = other.gameObject.GetComponent<CannonBall>();
-        if (checkCannonBall)
+        if (checkCannonBall && !checkCannonBall.parentShip.Equals(this))
         {
             //todo hit animation???
             ApplyDamage(checkCannonBall.damage); //apply cannonball damage
@@ -148,7 +153,7 @@ public class Ship : MonoBehaviour
     /// <param name="direction">Direction in which to rotate the ship</param>
     /// <returns></returns>
     protected IEnumerator Rotate(float angle, Direction direction)
-    {
+    {       
         if (moving || rotating) yield break;
 
         rotating = true;
@@ -156,9 +161,7 @@ public class Ship : MonoBehaviour
         int numFrames = (int) (angle / (rotationSpeed * Time.fixedDeltaTime));
         for (int frame = 0; frame < numFrames; frame++)
         {
-            Debug.Log("Rotating");
             transform.Rotate(0f, rotationSpeed * Time.fixedDeltaTime * (direction == Direction.Left ? -1 : 1), 0f);
-
             yield return new WaitForFixedUpdate();
         }
 
@@ -172,21 +175,23 @@ public class Ship : MonoBehaviour
     /// <returns></returns>
     protected IEnumerator MoveForward(float distance)
     {
+        SoundMoving();
         if (rotating || moving) yield break;
 
         moving = true;
 
         float distanceWent = 0f;
         Vector3 startPos;
-
+        
         while (distanceWent <= distance)
         {
+            
+           
             startPos = transform.position;
             _shipController.SimpleMove(transform.forward * speed);
             distanceWent += Vector3.Distance(startPos, transform.position);
             yield return null;
         }
-
         moving = false;
     }
 
@@ -204,6 +209,7 @@ public class Ship : MonoBehaviour
     /// </summary>
     /// <param name="ship">Ship to add</param>
     public void AddVisibleShip(Ship ship) => visibleShips.Add(ship);
+    
 
     /// <summary>
     /// Remove ship from visible ships list
@@ -228,15 +234,15 @@ public class Ship : MonoBehaviour
     /// </summary>
     /// <param name="existingPowerUps">Existing powerUps</param>
     public void UpdateVisiblePowerUps(HashSet<PowerUp> existingPowerUps) => visiblePowerUps =
-        new HashSet<PowerUp>(visiblePowerUps.Where(powerUp => existingPowerUps.Contains(powerUp)));
+        new HashSet<PowerUp>(visiblePowerUps.Where(powerUp => powerUp != null && existingPowerUps.Contains(powerUp)));
 
     /// <summary>
     /// Set picked powerup
     /// </summary>
-    /// <param name="powerup">Object to check if this methos was called from the powerup object itself</param>
+    /// <param name="powerup">Object to check if this method was called from the powerup object itself</param>
     public void SetPowerUp(object powerup)
     {
-        if (powerup is PowerUp) this.powerup = ((PowerUp) powerup).powerUpType;
+        if (powerup is PowerUp up) this.powerup = up.powerUpType;
     }
 
     /// <summary>
@@ -348,6 +354,11 @@ public class Ship : MonoBehaviour
             timeBurnt += FireBoat.damageInterval;
             ApplyDamage(FireBoat.fireDamage);
         }
+    }
+
+    private void SoundMoving()
+    {
+        audioSRC.PlayOneShot(audioSRC.clip);
     }
 
     protected void Shoot(VisionSphere.VisionPosition position)
