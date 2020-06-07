@@ -27,12 +27,12 @@ public class EricAI : Ship
                 for (int i = 0; i < 100; i++)
                 {
                     yield return EdgeDetection(1f);
-                    yield return MoveForward(100);
+                    yield return MoveForward(300);
                     Shoot(VisionSphere.VisionPosition.Front);
                     Shoot(VisionSphere.VisionPosition.Left);
                     Shoot(VisionSphere.VisionPosition.Right);
                     yield return EdgeDetection(1f);
-                    yield return Rotate(45, Direction.Left);
+                   // yield return Rotate(45, Direction.Left);
                     yield return EdgeDetection(1f);
                     Shoot(VisionSphere.VisionPosition.Front);
                     Shoot(VisionSphere.VisionPosition.Left);
@@ -122,12 +122,16 @@ public class EricAI : Ship
 
     private IEnumerator PowerUpNear()
     {
-        PowerUp powerNear = visiblePowerUps.OrderBy(powerUp => Vector3.Distance(powerUp.transform.position, position))
-            .First();
-        Vector2 nearestPower = new Vector2(powerNear.transform.position.x, powerNear.transform.position.y);
-        Debug.Log("power-up in sight");
-        yield return RotTo(nearestPower);
-        yield return MoveForward(200);
+        UpdateVisiblePowerUps(visiblePowerUps);
+        if (visiblePowerUps.Any())
+        {
+            PowerUp powerNear = visiblePowerUps.OrderBy(powerUp => Vector3.Distance(powerUp.transform.position, position))
+                .First();
+            Vector2 nearestPower = new Vector2(powerNear.transform.position.x, powerNear.transform.position.y);
+            Debug.Log("power-up in sight");
+            yield return RotTo(nearestPower);
+            yield return MoveForward(200);
+        }
     }
 
     private IEnumerator ShipNear()

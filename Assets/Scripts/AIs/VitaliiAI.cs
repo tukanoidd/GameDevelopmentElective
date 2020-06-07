@@ -56,6 +56,7 @@ public class VitaliiAI : Ship
             }
             else if (!visibleShips.Any() && visiblePowerUps.Any())
             {
+                Debug.Log("I see a powerup");
                 if (CanHeal && health < 100 - Healing.amountToAdd)
                     StartCoroutine(UseHealingPowerUp());
 
@@ -180,6 +181,7 @@ public class VitaliiAI : Ship
         if (!visiblePowerUps.Any()) yield return Explore();
         else
         {
+            Debug.Log("I go to powerup now");
             PowerUp nearestPowerUp = visiblePowerUps
                 .OrderBy(powerUp => Vector3.Distance(powerUp.transform.position, position)).First();
 
