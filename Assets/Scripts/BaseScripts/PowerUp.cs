@@ -2,18 +2,18 @@
 using BaseScripts;
 using UnityEngine;
 
-[RequireComponent(typeof(MeshRenderer))]
-[RequireComponent(typeof(BoxCollider))]
-[RequireComponent(typeof(MeshFilter))]
+[RequireComponent(typeof(SphereCollider))]
 [RequireComponent(typeof(Rigidbody))]
 public class PowerUp : MonoBehaviour
 {
     public PowerUpType powerUpType = PowerUpType.None;
-    [Range(10, 50)] public float rotationSpeed = 25; 
+    [Range(10, 50)] public float rotationSpeed = 25;
+
+    [SerializeField] private GameObject mesh;
 
     private void FixedUpdate()
     {
-        transform.Rotate(0, rotationSpeed * Time.fixedDeltaTime, 0);
+        mesh.transform.Rotate(0, rotationSpeed * Time.fixedDeltaTime, 0);
     }
 
     private void OnCollisionEnter(Collision other)
