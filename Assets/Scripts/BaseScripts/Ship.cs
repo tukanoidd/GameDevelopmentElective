@@ -48,7 +48,6 @@ public class Ship : MonoBehaviour
     [SerializeField] private AudioClip Damaged;
     [SerializeField] private AudioClip Sink;
 
-
     [Space(20)] [HideInInspector] public bool dying = false;
 
     public bool HasPowerup => powerup != PowerUpType.None;
@@ -100,12 +99,12 @@ public class Ship : MonoBehaviour
     }
 
     /// <summary>
-    /// Checking for cannonball collision 
+    /// Check for cannonball collisions
     /// </summary>
-    /// <param name="other">Object collided with</param>
-    private void OnTriggerEnter(Collider other)
+    /// <param name="other"></param>
+    private void OnCollisionEnter(Collision other)
     {
-        CannonBall checkCannonBall = other.gameObject.GetComponent<CannonBall>();
+        CannonBall checkCannonBall = other.collider.gameObject.GetComponent<CannonBall>();
         if (checkCannonBall && !checkCannonBall.parentShip.Equals(this))
         {
             //todo hit animation???
@@ -114,7 +113,14 @@ public class Ship : MonoBehaviour
 
             Destroy(checkCannonBall);
         }
+    }
 
+    /// <summary>
+    /// Checking for kraken collision 
+    /// </summary>
+    /// <param name="other">Object collided with</param>
+    private void OnTriggerEnter(Collider other)
+    {
         if (other.gameObject.CompareTag("Kraken"))
         {
             ApplyDamage(Kraken.amount);
@@ -368,31 +374,50 @@ public class Ship : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Play moving sound
+    /// </summary>
     private void SoundMoving()
     {
         audioSRC.PlayOneShot(boatMoving);
     }
 
+    /// <summary>
+    /// Play firing sound
+    /// </summary>
     private void SoundFire()
     {
         audioSRC.PlayOneShot(aFlame);
     }
 
+    /// <summary>
+    /// Play kraken sound
+    /// </summary>
     private void SoundMonster()
     {
         audioSRC.PlayOneShot(Monster);
     }
 
+    /// <summary>
+    /// Play sound when the damage is applied
+    /// </summary>
     private void Impact()
     {
         audioSRC.PlayOneShot(Damaged);
     }
 
+    /// <summary>
+    /// Play sound when player dies
+    /// </summary>
     private void SoundDeath()
     {
         audioSRC.PlayOneShot(Sink);
     }
 
+    /// <summary>
+    /// Shoot from one of the cannons depending on passed position
+    /// </summary>
+    /// <param name="position">Position of a cannon</param>
     protected void Shoot(VisionSphere.VisionPosition position)
     {
         if (position == VisionSphere.VisionPosition.Front) _cannonFront.Shoot(accuracy, reloadSpeed);
@@ -400,12 +425,41 @@ public class Ship : MonoBehaviour
         else if (position == VisionSphere.VisionPosition.Right) _cannonRight.Shoot(accuracy, reloadSpeed);
     }
 
+    /// <summary>
+    /// Check if cannon is reloading
+    /// </summary>
+    /// <param name="position">Posiiton of a cannon</param>
+    /// <returns></returns>
     protected bool CannonIsReloading(VisionSphere.VisionPosition position)
     {
         if (position == VisionSphere.VisionPosition.Front) return _cannonFront.reloading;
         if (position == VisionSphere.VisionPosition.Left) return _cannonLeft.reloading;
         if (position == VisionSphere.VisionPosition.Right) return _cannonRight.reloading;
 
+        return false;
+    }
+
+    /// <summary>
+    /// Get powerup ship is holding only if caller of the function is this ship's status manager
+    /// </summary>
+    /// <param name="caller">Caller of the function</param>
+    /// <returns>Powerup ship is holding</returns>
+    public PowerUpType GetPowerUp(object caller)
+    {
+        ShipStatsManager manager = caller as ShipStatsManager;
+        if (manager != null && manager.GetShip(this) == this) return powerup;
+        return PowerUpType.None;
+    }
+
+    /// <summary>
+    /// Check if ship is burning but only if caller of the function is this ship's status manager
+    /// </summary>
+    /// <param name="caller">Caller of the function</param>
+    /// <returns>Status of ship being on fire</returns>
+    public bool IsBurning(object caller)
+    {
+        ShipStatsManager manager = caller as ShipStatsManager;
+        if (manager != null && manager.GetShip(this) == this) return onFire;
         return false;
     }
 }

@@ -8,6 +8,9 @@ using UnityEngine.Rendering.PostProcessing;
 
 public class VitaliiAI : Ship
 {
+    [SerializeField] private float exploreDistance = 100;
+    [SerializeField] private float fleeDistance = 200;
+    
     private bool NeedHealing => health < 50;
     private bool CanHeal => powerup == PowerUpType.Healing;
     private bool NeedAndCanHeal => NeedHealing && CanHeal;
@@ -97,12 +100,12 @@ public class VitaliiAI : Ship
 
     private IEnumerator Explore()
     {
-        yield return VitaliiAIMove(50);
+        yield return VitaliiAIMove(exploreDistance);
     }
 
     private IEnumerator Flee()
     {
-        yield return VitaliiAIMove(100);
+        yield return VitaliiAIMove(fleeDistance);
     }
 
     private IEnumerator VitaliiAIMove(float distance)

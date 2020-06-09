@@ -7,10 +7,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2103667017415243108, guid: 98b9732a700d3e144a9ea3c83a453292,
+        type: 3}
+      propertyPath: powerUpType
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2103667017415243109, guid: 98b9732a700d3e144a9ea3c83a453292,
         type: 3}
       propertyPath: m_Name
-      value: PowerUp
+      value: FireBoatPowerup
       objectReference: {fileID: 0}
     - target: {fileID: 2103667017415243160, guid: 98b9732a700d3e144a9ea3c83a453292,
         type: 3}

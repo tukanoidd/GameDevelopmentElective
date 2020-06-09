@@ -33,7 +33,6 @@ public class EricAI : Ship
             }
             if (visiblePowerUps.Any() && !visibleShips.Any())
             {
-                Debug.Log("found shit!");
                 wandering = false;
                 yield return PowerUpNear();
                 wandering = true;
@@ -44,7 +43,6 @@ public class EricAI : Ship
             }
             if (visibleShips.Any())
             {
-                Debug.Log("Ship ahoy");
                     wandering = false;
                     Shoot(VisionSphere.VisionPosition.Front);
                     yield return ShipNear();
