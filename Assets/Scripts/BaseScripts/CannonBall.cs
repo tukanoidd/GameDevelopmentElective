@@ -15,9 +15,9 @@ public class CannonBall : MonoBehaviour
         if (transform.position.y < -40) Destroy(gameObject);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.name == "Sea")
+        if (other.collider.gameObject.name == "Sea")
         {
             //todo splash animation maybe?
             

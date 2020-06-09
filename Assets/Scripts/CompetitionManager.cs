@@ -21,6 +21,9 @@ public class CompetitionManager : MonoBehaviour
     private Transform[] spawnPoints;
 
     [SerializeField] private GameObject[] shipPrefabs;
+    
+    [Space(20)]
+    [SerializeField] private List<ShipStatsManager> shipsStats = new List<ShipStatsManager>();
 
     [Header("PowerUps Spawning")] [SerializeField]
     private GameObject[] powerupPrefabs;
@@ -61,14 +64,21 @@ public class CompetitionManager : MonoBehaviour
 
     private void SpawnShips()
     {
+        _ships = new List<Ship>();
+        
         int num = Mathf.Min(spawnPoints.Length, shipPrefabs.Length);
 
         for (int i = 0; i < num; i++)
         {
             GameObject newShip = Instantiate(shipPrefabs[i], spawnPoints[i].position, spawnPoints[i].rotation);
+            _ships.Add(newShip.GetComponent<Ship>());
+            shipsStats[i].SetShip(this, _ships[i]);
         }
 
-        _ships = FindObjectsOfType<Ship>().ToList();
+        foreach (ShipStatsManager statsManager in shipsStats.Where(shipStat => shipStat.GetShip(this) == null))
+        {
+            statsManager.gameObject.SetActive(false);
+        }
     }
 
     private IEnumerator SpawnPowerup()
@@ -108,6 +118,9 @@ public class CompetitionManager : MonoBehaviour
 
     public void RemoveShip(Ship ship)
     {
+        ShipStatsManager manager = shipsStats.FirstOrDefault(shipStat => shipStat.GetShip(this) == ship);
+        if (manager != null) manager.isDead = true;
+        
         _ships.Remove(ship);
         foreach (Ship aliveShip in _ships)
         {
