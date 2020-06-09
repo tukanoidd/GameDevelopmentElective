@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using BaseScripts;
@@ -10,7 +11,7 @@ public class GradusAI : Ship
     private bool hasHealing => powerup == PowerUpType.Healing;
 
     private bool canHeal => lowHealth && hasHealing;
-
+    private float SeaSize = 450;
     private Ship Enemyship => visibleShips.Where(ship => Vector3.Distance(position, ship.position) <= 200 && !ship.dying)
         .OrderBy(ship => ship.health).FirstOrDefault();
     public override IEnumerator RunAI(object caller)
@@ -18,31 +19,89 @@ public class GradusAI : Ship
         if (!(caller is CompetitionManager)) yield break;
         while (!dying || !CompetitionManager.current.gameOver || !CompetitionManager.current.gameStarted)
         {
-            
-            if(lowHealth == true)
+            if (!visibleShips.Any() && !visiblePowerUps.Any())
+            {
+                yield return MoveVision();
+            }
+            if (lowHealth)
             {
                 Debug.Log("Need Healing");
 
-                IEnumerable<PowerUp> healingPowerUps =
-                          visiblePowerUps.Where(powerUp => powerUp.powerUpType == PowerUpType.Healing);
-
-                if (healingPowerUps.Any())
+                if (hasHealing)
                 {
-                    PowerUp nearestHealingPowerUp = healingPowerUps.OrderBy(powerUp =>
-                        Vector3.Distance(powerUp.transform.position, position)).First();
-                    Debug.Log("Let's do some healing");
-                    yield return MoveTowards(nearestHealingPowerUp.transform.position);
-                    yield break;
+                    StartCoroutine(UseHealingPowerUp());
+                }
+                else
+                {
+                    IEnumerable<PowerUp> healingPowerUps =
+                                            visiblePowerUps.Where(powerUp => powerUp.powerUpType == PowerUpType.Healing);
+                    if (healingPowerUps.Any())
+                    {
+                        PowerUp nearestHealingPowerUp = healingPowerUps.OrderBy(powerUp =>
+                            Vector3.Distance(powerUp.transform.position, position)).First();
+                        Debug.Log("Let's get that healing");
+                        yield return MoveTowards(nearestHealingPowerUp.transform.position);
+                    }
                 }
             }
-            yield return MoveForward(10);
+
+            if(visibleShips.Any() && !visiblePowerUps.Any())
+            {
+                yield return Shoot();
+            }
+
+            if(powerup == PowerUpType.Kraken)
+            {
+                StartCoroutine(UseKrakenPowerUp());
+            }
+            
+            if(visibleShips.Any() && health <=50 && powerup == PowerUpType.Speeder)
+            {
+                StartCoroutine(UseSpeederPowerUp());
+                yield return Hide();
+            }
+            if(visiblePowerUps.Any() && powerup != PowerUpType.None)
+            {
+                if(powerup == PowerUpType.Kraken)
+                {
+                    StartCoroutine(UseKrakenPowerUp());
+                }
+                if (powerup == PowerUpType.Speeder)
+                {
+                    StartCoroutine(UseSpeederPowerUp());
+                }
+                if (powerup == PowerUpType.FireBoat)
+                {
+                    StartCoroutine(UseFireBoatPowerUp());
+                }
+                if (powerup == PowerUpType.Healing)
+                {
+                    StartCoroutine(UseHealingPowerUp());
+                }
+
+                PowerUp powerNear = visiblePowerUps
+                        .OrderBy(powerUp => Vector3.Distance(powerUp.transform.position, position))
+                        .First();
+                MoveTowards(powerNear.transform.position);
+            }
         }
     }
-
+    private IEnumerator GradusMoveForward(float distance)
+    {
+        yield return MoveForward(distance);
+        if(Mathf.Abs(position.x) > SeaSize || Mathf.Abs(position.z) > SeaSize)
+        {
+            Vector2 rotationDirection = new Vector2(-position.x, -position.z);
+            yield return RotateTowards(rotationDirection);
+        }
+        
+    }
     private IEnumerator RotateTowards(Vector2 direction)
     {
-        float angle = Vector2.Angle(direction, transform.forward);
-        yield return Rotate(angle, Direction.Left);
+        Vector3 forward = transform.forward;
+        float angle = Vector2.SignedAngle(direction, new Vector2(forward.x, forward.z));
+        if(Math.Abs(angle) > 0.10f)
+            yield return Rotate(Math.Abs(angle), angle < 0 ? Direction.Left : Direction.Right);
     }
     private IEnumerator MoveTowards(Vector3 posTarget)
     {
@@ -52,5 +111,57 @@ public class GradusAI : Ship
         yield return visionSphere.MoveToDirection(VisionSphere.VisionPosition.Front);
         yield return RotateTowards(targetMapPos - AIMapPos);
         yield return MoveForward(Vector2.Distance(targetMapPos, AIMapPos));
+    }
+
+    private IEnumerator Hide()
+    {
+        yield return Rotate(20, Direction.Right);
+        yield return GradusMoveForward(100);
+    }
+    private IEnumerator Shoot()
+    {
+        Ship closestShip = visibleShips
+                   .OrderBy(ship => Vector3.Distance(ship.transform.position, position))
+                   .First();
+        RotateTowards(closestShip.transform.position);
+        if (powerup == PowerUpType.FireBoat == health >= 50)
+        {
+            StartCoroutine(UseFireBoatPowerUp());
+        }
+        if (visionSphere.position == VisionSphere.VisionPosition.Left)
+        {
+            Shoot(VisionSphere.VisionPosition.Left);
+            yield break;
+        }
+        if (visionSphere.position == VisionSphere.VisionPosition.Right)
+        {
+            Shoot(VisionSphere.VisionPosition.Right);
+            yield break;
+        }
+        if (visionSphere.position == VisionSphere.VisionPosition.Back)
+        {
+            Shoot(VisionSphere.VisionPosition.Back);
+            yield break;
+        }
+        if (visionSphere.position == VisionSphere.VisionPosition.Front)
+        {
+            Shoot(VisionSphere.VisionPosition.Front);
+            yield break;
+        }
+    }
+    private IEnumerator MoveVision()
+    {
+        VisionSphere.VisionPosition oldPos = visionSphere.position;
+        VisionSphere.VisionPosition newPos = oldPos == VisionSphere.VisionPosition.Back
+            ? VisionSphere.VisionPosition.Left
+            : (oldPos == VisionSphere.VisionPosition.Left
+                ? VisionSphere.VisionPosition.Front
+                : (oldPos == VisionSphere.VisionPosition.Front
+                    ? VisionSphere.VisionPosition.Right
+                    : VisionSphere.VisionPosition.Back));
+
+        yield return visionSphere.MoveToDirection(newPos);
+
+        yield return GradusMoveForward(200);
     }
 }
