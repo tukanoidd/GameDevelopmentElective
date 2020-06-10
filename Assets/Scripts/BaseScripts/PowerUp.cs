@@ -21,7 +21,6 @@ public class PowerUp : MonoBehaviour
         Ship checkShip = other.gameObject.GetComponent<Ship>();
         if (checkShip != null && !checkShip.HasPowerup)
         {
-            
             checkShip.SetPowerUp(this);
         
             Destroy(gameObject);   

@@ -47,7 +47,11 @@ public class VitaliiAI : Ship
                 {
                     if (NeedHealing)
                     {
-                        if (CanHeal) StartCoroutine(UseHealingPowerUp());
+                        if (CanHeal)
+                        {
+                            StartCoroutine(UseHealingPowerUp());
+                            yield return VitaliiAIShoot(shipToAttack);
+                        }
                         else if (shipToAttack.HasPowerup)
                         {
                             if (powerup == PowerUpType.Speeder) StartCoroutine(UseSpeederPowerUp());
@@ -59,8 +63,7 @@ public class VitaliiAI : Ship
             }
             else if (!visibleShips.Any() && visiblePowerUps.Any())
             {
-                Debug.Log("I see a powerup");
-                if (CanHeal && health < 100 - Healing.amountToAdd)
+                if (CanHeal && health <= 100 - Healing.amountToAdd)
                     StartCoroutine(UseHealingPowerUp());
 
                 if (HasPowerup) yield return Explore();
@@ -83,16 +86,13 @@ public class VitaliiAI : Ship
                             Vector3.Distance(powerUp.transform.position, position)).First();
 
                         yield return VitaliiAIMoveToward(nearestHealingPowerUp.transform.position);
-                        yield break;
                     }
-
-                    yield return CheckShipAndShoot(shipToAttack);
+                    else yield return CheckShipAndShoot(shipToAttack);
                 }
                 else
                 {
                     if (!HasPowerup) yield return FindAndGoToNearestPowerUp();
-
-                    yield return CheckShipAndShoot(shipToAttack);
+                    else yield return CheckShipAndShoot(shipToAttack);
                 }
             }
         }
@@ -124,7 +124,7 @@ public class VitaliiAI : Ship
         Vector3 forward = transform.forward;
         float angle = Vector2.SignedAngle(direction, new Vector2(forward.x, forward.z));
 
-        if (Math.Abs(angle) > 0.10f)
+        if (Math.Abs(angle) > 0.1f)
             yield return Rotate(Math.Abs(angle), angle < 0 ? Direction.Left : Direction.Right);
     }
 
@@ -175,7 +175,7 @@ public class VitaliiAI : Ship
             if (rotate) yield return Rotate(rotationAngle, rotationDirection);
             Shoot(shootDirection);
         }
-        else yield return Explore();
+        else yield return Flee();
     }
 
     private IEnumerator FindAndGoToNearestPowerUp()
@@ -184,7 +184,6 @@ public class VitaliiAI : Ship
         if (!visiblePowerUps.Any()) yield return Explore();
         else
         {
-            Debug.Log("I go to powerup now");
             PowerUp nearestPowerUp = visiblePowerUps
                 .OrderBy(powerUp => Vector3.Distance(powerUp.transform.position, position)).First();
 
@@ -196,7 +195,11 @@ public class VitaliiAI : Ship
     {
         if (shipToAttack)
         {
-            if (shipToAttack.HasPowerup) yield return Flee();
+            if (shipToAttack.HasPowerup)
+            {
+                if (powerup == PowerUpType.Speeder) StartCoroutine(UseSpeederPowerUp());
+                yield return Flee();
+            }
             else yield return VitaliiAIShoot(shipToAttack);
         }   
     }
