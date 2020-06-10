@@ -15,8 +15,8 @@ MonoBehaviour:
   health: 100
   position: {x: 0, y: 0, z: 0}
   rotation: {x: 0, y: 0, z: 0, w: 1}
-  speed: 30
-  rotationSpeed: 25
+  speed: 60
+  rotationSpeed: 65
   reloadSpeed: 5
   accuracy: 90
   visionSphere: {fileID: 7768322505595366122}
@@ -44,6 +44,11 @@ PrefabInstance:
       propertyPath: parentShip
       value: 
       objectReference: {fileID: 3916503806374805013}
+    - target: {fileID: 2558166812618244091, guid: 94110ca0e17004efabeabf32fc70e56d,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3510254886576384034, guid: 94110ca0e17004efabeabf32fc70e56d,
         type: 3}
       propertyPath: parentShip
@@ -54,6 +59,11 @@ PrefabInstance:
       propertyPath: parentShip
       value: 
       objectReference: {fileID: 3916503806374805013}
+    - target: {fileID: 3551795317700772033, guid: 94110ca0e17004efabeabf32fc70e56d,
+        type: 3}
+      propertyPath: rotationSpeed
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 6732724274104520258, guid: 94110ca0e17004efabeabf32fc70e56d,
         type: 3}
       propertyPath: m_LocalPosition.x

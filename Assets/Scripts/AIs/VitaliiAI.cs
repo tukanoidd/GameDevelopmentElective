@@ -10,6 +10,8 @@ public class VitaliiAI : Ship
 {
     [SerializeField] private float exploreDistance = 100;
     [SerializeField] private float fleeDistance = 200;
+
+    [SerializeField] private float boundaries = 250;
     
     private bool NeedHealing => health < 50;
     private bool CanHeal => powerup == PowerUpType.Healing;
@@ -110,7 +112,7 @@ public class VitaliiAI : Ship
 
     private IEnumerator VitaliiAIMove(float distance)
     {
-        if (Math.Abs(position.x) > 350 || Math.Abs(position.z) > 350)
+        if (Math.Abs(position.x) > boundaries || Math.Abs(position.z) > boundaries)
         {
             Vector2 dir = new Vector2(-position.x, -position.z);
             yield return RotateToward(dir);

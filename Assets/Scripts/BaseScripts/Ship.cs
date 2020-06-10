@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using BaseScripts;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
@@ -24,10 +25,10 @@ public class Ship : MonoBehaviour
     [Header("Transform Data")] public Vector3 position = Vector3.zero;
     public Quaternion rotation = Quaternion.identity;
 
-    [Header("Movement Data")] [Range(10, 50)]
-    public float speed = 30;
+    [Header("Movement Data")] 
+    [Range(10, 100)] public float speed = 60;
 
-    [Range(10, 25)] public float rotationSpeed = 25;
+    [Range(10, 100)] public float rotationSpeed = 65;
 
     [Header("Shooting Data")] [Range(5, 15)]
     public float reloadSpeed = 5;
@@ -57,6 +58,8 @@ public class Ship : MonoBehaviour
     private BoxCollider _shipCollider;
     private CharacterController _shipController;
 
+    private TextMeshPro floatingShipNameText;
+
     protected HashSet<Ship> visibleShips = new HashSet<Ship>();
 
     protected HashSet<PowerUp> visiblePowerUps = new HashSet<PowerUp>();
@@ -73,6 +76,10 @@ public class Ship : MonoBehaviour
 
         _shipCollider = GetComponent<BoxCollider>();
         _shipController = GetComponent<CharacterController>();
+        
+        floatingShipNameText = transform.Find("ShipFloatingName").GetComponent<TextMeshPro>();
+        floatingShipNameText.text = name.Replace("(Clone)", "");
+        
         audioSRC = GetComponent<AudioSource>();
         audioSRC.clip = boatMoving;
     }
@@ -198,10 +205,19 @@ public class Ship : MonoBehaviour
         moving = true;
 
         float distanceWent = 0f;
-        Vector3 startPos;
-
+        Vector3 startPos = transform.position;
+        int i = 0;
+        
         while (distanceWent <= distance)
         {
+            // check if stuck
+            if (Vector3.Distance(startPos, transform.position) <= 0.05f)
+            {
+                i++;
+                if (i > 98) transform.position += transform.forward * 20;
+                i %= 100;
+            }
+                
             startPos = transform.position;
             _shipController.SimpleMove(transform.forward * speed);
             distanceWent += Vector3.Distance(startPos, transform.position);

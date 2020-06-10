@@ -1761,7 +1761,7 @@ PrefabInstance:
         type: 3}
       propertyPath: shipPrefabs.Array.data[2]
       value: 
-      objectReference: {fileID: 2992169850283486034, guid: 05bae4c948bc0a144a743318a4cccf7a,
+      objectReference: {fileID: 6626832566538553316, guid: 6179b871a629a1846906c19da05dd5fd,
         type: 3}
     - target: {fileID: 8487527656895139047, guid: 511990faeaadf4428964da901f8ee2fb,
         type: 3}

@@ -15,8 +15,8 @@ MonoBehaviour:
   health: 100
   position: {x: 0, y: 0, z: 0}
   rotation: {x: 0, y: 0, z: 0, w: 1}
-  speed: 30
-  rotationSpeed: 25
+  speed: 60
+  rotationSpeed: 65
   reloadSpeed: 5
   accuracy: 90
   visionSphere: {fileID: 1837920449733678305}
@@ -25,7 +25,14 @@ MonoBehaviour:
   _cannonRight: {fileID: 3542509627465614486}
   audioSRC: {fileID: 9194059267983290155}
   boatMoving: {fileID: 8300000, guid: 76cdffcfae13f194cb3eaac04598375c, type: 3}
+  aFlame: {fileID: 8300000, guid: 03f4f15f476b4774fa8879d1378cddf5, type: 3}
+  Monster: {fileID: 8300000, guid: 3ecdccb41bf13b44fb0e36885f555c51, type: 3}
+  Damaged: {fileID: 8300000, guid: 6ad69075e10aaaf4ebbe86408a4136ee, type: 3}
+  Sink: {fileID: 8300000, guid: b551f8e7a020b2d42adf7bc43d7bfe66, type: 3}
   dying: 0
+  exploreDistance: 200
+  fleeDistance: 400
+  boundaries: 200
 --- !u!1001 &2939471686308598816
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -37,17 +44,27 @@ PrefabInstance:
         type: 3}
       propertyPath: parentShip
       value: 
+      objectReference: {fileID: 8709890937681266511}
+    - target: {fileID: 2558166812618244091, guid: 94110ca0e17004efabeabf32fc70e56d,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3510254886576384034, guid: 94110ca0e17004efabeabf32fc70e56d,
         type: 3}
       propertyPath: parentShip
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 8709890937681266511}
     - target: {fileID: 3551795317700772033, guid: 94110ca0e17004efabeabf32fc70e56d,
         type: 3}
       propertyPath: parentShip
       value: 
       objectReference: {fileID: 8709890937681266511}
+    - target: {fileID: 3551795317700772033, guid: 94110ca0e17004efabeabf32fc70e56d,
+        type: 3}
+      propertyPath: rotationSpeed
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 6732724274104520258, guid: 94110ca0e17004efabeabf32fc70e56d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -112,7 +129,7 @@ PrefabInstance:
         type: 3}
       propertyPath: parentShip
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 8709890937681266511}
     m_RemovedComponents:
     - {fileID: 114935950901250498, guid: 94110ca0e17004efabeabf32fc70e56d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 94110ca0e17004efabeabf32fc70e56d, type: 3}

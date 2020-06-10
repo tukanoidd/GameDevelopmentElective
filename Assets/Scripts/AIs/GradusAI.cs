@@ -38,8 +38,6 @@ public class GradusAI : Ship
             }
             if (lowHealth)
             {
-                Debug.Log("Need Healing");
-
                 if (hasHealing)
                 {
                     StartCoroutine(UseHealingPowerUp());
@@ -52,7 +50,6 @@ public class GradusAI : Ship
                     {
                         PowerUp nearestHealingPowerUp = healingPowerUps.OrderBy(powerUp =>
                             Vector3.Distance(powerUp.transform.position, position)).First();
-                        Debug.Log("Let's get that healing");
                         yield return MoveTowards(nearestHealingPowerUp.transform.position);
                     }
                 }
@@ -134,29 +131,31 @@ public class GradusAI : Ship
     }
     private IEnumerator ShootGradus()
     {
-        Ship closestShip = visibleShips
-                   .OrderBy(ship => Vector3.Distance(ship.transform.position, position))
-                   .First();
-        RotateTowards(closestShip.transform.position);
-        if (powerup == PowerUpType.FireBoat == health >= 50)
+        if (visibleShips.Any())
         {
-            StartCoroutine(UseFireBoatPowerUp());
+            Ship closestShip = visibleShips
+                .OrderBy(ship => Vector3.Distance(ship.transform.position, position))
+                .First();
+            RotateTowards(closestShip.transform.position);    
+            
+            if (powerup == PowerUpType.FireBoat == health >= 50)
+            {
+                StartCoroutine(UseFireBoatPowerUp());
+            }
+            if (VisionSphere.VisionPosition.Left == visionSphere.position)
+            {
+                Shoot(VisionSphere.VisionPosition.Left);
+            }
+            if (VisionSphere.VisionPosition.Right == visionSphere.position)
+            {
+                Shoot(VisionSphere.VisionPosition.Right);
+            }
+            if (VisionSphere.VisionPosition.Front == visionSphere.position)
+            {
+                Shoot(VisionSphere.VisionPosition.Front);
+            }
         }
-        if (VisionSphere.VisionPosition.Left == visionSphere.position)
-        {
-            Shoot(VisionSphere.VisionPosition.Left);
-            Debug.Log("Shoot left");
-        }
-        if (VisionSphere.VisionPosition.Right == visionSphere.position)
-        {
-            Shoot(VisionSphere.VisionPosition.Right);
-            Debug.Log("Shoot right");
-        }
-        if (VisionSphere.VisionPosition.Front == visionSphere.position)
-        {
-            Shoot(VisionSphere.VisionPosition.Front);
-            Debug.Log("Shoot front");
-        }
+        
         yield return GradusMoveForward(10);
     }
 }
