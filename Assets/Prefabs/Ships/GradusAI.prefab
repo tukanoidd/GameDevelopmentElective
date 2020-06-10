@@ -48,7 +48,7 @@ MonoBehaviour:
     type: 3}
   shootPower: 300000
   cannonPlaceholder: {fileID: 1740674994258174713}
-  parentShip: {fileID: 0}
+  parentShip: {fileID: 3557720518876444366}
 --- !u!1 &2480768667794755023
 GameObject:
   m_ObjectHideFlags: 0
@@ -557,11 +557,11 @@ MonoBehaviour:
   _cannonFront: {fileID: 3281281260257833211}
   _cannonRight: {fileID: 6456612859497989428}
   audioSRC: {fileID: 7139035070589923984}
-  boatMoving: {fileID: 0}
-  aFlame: {fileID: 0}
-  Monster: {fileID: 0}
-  Damaged: {fileID: 0}
-  Sink: {fileID: 0}
+  boatMoving: {fileID: 8300000, guid: 76cdffcfae13f194cb3eaac04598375c, type: 3}
+  aFlame: {fileID: 8300000, guid: 03f4f15f476b4774fa8879d1378cddf5, type: 3}
+  Monster: {fileID: 8300000, guid: 3ecdccb41bf13b44fb0e36885f555c51, type: 3}
+  Damaged: {fileID: 8300000, guid: 6ad69075e10aaaf4ebbe86408a4136ee, type: 3}
+  Sink: {fileID: 8300000, guid: b551f8e7a020b2d42adf7bc43d7bfe66, type: 3}
   dying: 0
 --- !u!1 &3264363200829631426
 GameObject:
@@ -702,7 +702,7 @@ MonoBehaviour:
     type: 3}
   shootPower: 300000
   cannonPlaceholder: {fileID: 1432649808823803268}
-  parentShip: {fileID: 0}
+  parentShip: {fileID: 3557720518876444366}
 --- !u!1 &3803925875667386139
 GameObject:
   m_ObjectHideFlags: 0
@@ -942,7 +942,7 @@ MonoBehaviour:
     type: 3}
   shootPower: 300000
   cannonPlaceholder: {fileID: 691527796896125441}
-  parentShip: {fileID: 0}
+  parentShip: {fileID: 3557720518876444366}
 --- !u!1 &4648801740337217074
 GameObject:
   m_ObjectHideFlags: 0
