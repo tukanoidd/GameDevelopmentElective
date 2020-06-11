@@ -24,4 +24,14 @@ public class CannonBall : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    private void OnCollisionStay(Collision other)
+    {
+        if (other.collider.gameObject.name == "Sea")
+        {
+            //todo splash animation maybe?
+            
+            Destroy(gameObject);
+        }
+    }
 }

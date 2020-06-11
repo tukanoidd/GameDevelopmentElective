@@ -30,8 +30,8 @@ MonoBehaviour:
   Damaged: {fileID: 8300000, guid: 6ad69075e10aaaf4ebbe86408a4136ee, type: 3}
   Sink: {fileID: 8300000, guid: b551f8e7a020b2d42adf7bc43d7bfe66, type: 3}
   dying: 0
-  exploreDistance: 200
-  fleeDistance: 400
+  exploreDistance: 100
+  fleeDistance: 200
   boundaries: 200
 --- !u!1001 &2939471686308598816
 PrefabInstance:

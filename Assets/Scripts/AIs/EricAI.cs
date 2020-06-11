@@ -11,7 +11,7 @@ public class EricAI : Ship
     public override IEnumerator RunAI(object caller)
     {
         if (!(caller is CompetitionManager)) yield break;
-        while ((CompetitionManager.current.gameStarted) && (!dying || !CompetitionManager.current.gameOver))
+        while (CompetitionManager.current.gameStarted && (!dying || !CompetitionManager.current.gameOver))
         {
             if (wandering)
             {
