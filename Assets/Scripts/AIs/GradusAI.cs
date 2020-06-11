@@ -11,7 +11,7 @@ public class GradusAI : Ship
     private bool hasHealing => powerup == PowerUpType.Healing;
 
     private bool canHeal => lowHealth && hasHealing;
-    private float SeaSize = 350;
+    private float SeaSize = 250;
     private Ship Enemyship => visibleShips.Where(ship => Vector3.Distance(position, ship.position) <= 200 && !ship.dying)
         .OrderBy(ship => ship.health).FirstOrDefault();
     public override IEnumerator RunAI(object caller)
